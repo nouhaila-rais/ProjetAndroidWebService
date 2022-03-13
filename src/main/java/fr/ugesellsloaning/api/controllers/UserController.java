@@ -25,7 +25,7 @@ public class UserController {
         userServices.save(user);
     }
 
-    @GetMapping(path = "/id/{id}")
+    @GetMapping(path = "/{id}")
     public Optional<User> getById(@PathVariable(value = "id")  long id){
         return  userServices.getUserById(id);
     }

@@ -11,30 +11,30 @@ import java.util.Optional;
 @Service
 public class UserServices{
     @Autowired
-    private IUserRepository userRepostory;
+    private IUserRepository userRepository;
 
     public void save(User user){
-        userRepostory.save(user);
+        userRepository.save(user);
     }
 
     public Iterable<User> listUser(){
-        return userRepostory.findAll();
+        return userRepository.findAll();
     }
 
     public Optional<User> getUserById(long id){
-        return userRepostory.findById(id);
+        return userRepository.findById(id);
     }
 
     public List<User> getUserByLogin(String login){
-        return userRepostory.findAllByLogin(login);
+        return userRepository.findAllByLogin(login);
     }
 
     public void delete(User user){
-        userRepostory.delete(user);
+        userRepository.delete(user);
     }
 
     public void deleteById(Long id){
-        userRepostory.deleteById(id);
+        userRepository.deleteById(id);
     }
 
 

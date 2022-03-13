@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import fr.ugesellsloaning.api.entities.User;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -21,7 +23,10 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
+    @NotBlank
+    @Column(length = 2000)
     long content;
+
     float rate;
     Date createdAt;
     @ManyToOne
