@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ugesellsloaning" target="11" />
+      <module name="ugesellsloaning" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

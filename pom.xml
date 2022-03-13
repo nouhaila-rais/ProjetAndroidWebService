@@ -11,13 +11,9 @@
     <groupId>fr.ugesellsloaning.api</groupId>
     <artifactId>ugesellsloaning</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>ugesellsloaning</name>
     <description>Projet service web android </description>
-
-    <properties>
-        <java.version>11</java.version>
-    </properties>
 
     <dependencies>
         <dependency>
