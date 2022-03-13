@@ -1,7 +1,10 @@
 package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.entities.Notification;
+import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.services.NotificationServices;
+import fr.ugesellsloaning.api.services.UserServices;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+@Api( tags={"Operations Notification \"Notification\""})
 @RestController
 @RequestMapping("/api/notification")
 public class NotificationController {
