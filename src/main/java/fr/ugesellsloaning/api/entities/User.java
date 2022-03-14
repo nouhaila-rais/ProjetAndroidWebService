@@ -19,6 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
 
+    @Column(unique = true)
     @NotBlank(message = "Login cannot be null")
     String login;
 
@@ -28,6 +29,7 @@ public class User {
     @NotBlank(message = "Firstname cannot be null")
     String firstName;
 
+    @Column(unique = true)
     @NotBlank(message = "Email cannot be null")
     @Email(message = "Email should be valid")
     String email;
