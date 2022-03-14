@@ -1,22 +1,21 @@
 package fr.ugesellsloaning.api.entities;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import fr.ugesellsloaning.api.entities.User;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 @Entity
-public class Comment {
+public class Comment implements Serializable {
     public Comment(){
         createdAt = new Date();
     }
@@ -29,8 +28,8 @@ public class Comment {
 
     float rate;
     Date createdAt;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     User user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     Product product;
 }

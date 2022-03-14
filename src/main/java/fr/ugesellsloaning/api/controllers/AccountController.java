@@ -1,9 +1,7 @@
 package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.entities.Account;
-import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.services.AccountServices;
-import fr.ugesellsloaning.api.services.UserServices;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+
 
 @Api( tags={"Operations Compte \"Account\""})
 @RestController
@@ -34,7 +32,7 @@ public class AccountController {
 
     @ApiOperation(value = "Récupèration d'un compte")
     @GetMapping(path = "/{id}")
-    public Optional<Account> getById(@PathVariable(value = "id")  long id){ return  accountServices.getAccountById(id); }
+    public Account getById(@PathVariable(value = "id")  long id){ return  accountServices.getAccountById(id); }
 
     @ApiOperation(value = "Modification du compte")
     @PutMapping(value = "/")

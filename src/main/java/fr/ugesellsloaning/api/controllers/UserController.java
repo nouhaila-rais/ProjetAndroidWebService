@@ -36,10 +36,6 @@ public class UserController {
         return  userServices.getUserById(id);
     }
 
-    /*@GetMapping(path = "/login/{login}")
-    public List<User> getByLogin(@PathVariable(value = "login")  String login){
-        return  userServices.getUserByLogin(login);
-    }*/
 
     @PutMapping(value = "/api/user/")
     public void edit(@Valid @RequestBody User user){

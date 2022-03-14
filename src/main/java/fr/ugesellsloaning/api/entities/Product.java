@@ -1,5 +1,6 @@
 package fr.ugesellsloaning.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -7,18 +8,18 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.OptionalDouble;
-
 
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Setter
 @Getter
 @AllArgsConstructor
+@ToString
 @Entity
-public class Product {
+public class Product implements Serializable {
     public  Product(){
         createdAt = new Date();
         available = false;
@@ -41,10 +42,9 @@ public class Product {
     @Column(length = 2000)
     String description;
 
-    @NotBlank(message = "Price cannot be null")
-    @NotNull
+    @NotNull(message = "Price cannot be null")
     @Min(message = "Min Price 1 Euro", value = 1)
-    float price;
+    double price;
 
     @NotBlank
     String state;
@@ -56,26 +56,35 @@ public class Product {
     @Column(length = 500)
     String image;
 
-    @ManyToOne
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = true)
+    //@JsonBackReference
     User user;
 
-    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    //@JsonBackReference
     Collection<Comment> comments;
 
-    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    //@JsonBackReference
     Collection<Borrow> borrows;
 
-    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    //@JsonBackReference
     Collection<RequestBorrow> requestBorrows;
 
+    @JsonRawValue
     public int totalComment(){
         return comments.size();
     }
 
-/*
-    public OptionalDouble avgRate(){
-        return comments.stream().mapToDouble(Comment::getRate).average();
+    @JsonRawValue
+    public double avgRate(){
+        if( comments.size()>0){
+            return (comments.stream().mapToDouble(Comment::getRate).average()).getAsDouble();
+        }else{
+            return 0;
+        }
     }
 
- */
 }

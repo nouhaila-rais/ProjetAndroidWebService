@@ -20,6 +20,7 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 public class swaggerConfiguration {
+
     private static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
@@ -59,7 +60,7 @@ public class swaggerConfiguration {
                 .contact(new Contact("Developper", "www.mondemarcheur.com", "mamadou-hassimiou.diallo@outlook.com"))
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
-                .version("0.0.1")
+                .version("1.0.0")
                 .build();
     }
 
@@ -80,6 +81,4 @@ public class swaggerConfiguration {
         authorizationScopes[0] = authorizationScope;
         return Lists.newArrayList(new SecurityReference("JWT", authorizationScopes));
     }
-
-
 }

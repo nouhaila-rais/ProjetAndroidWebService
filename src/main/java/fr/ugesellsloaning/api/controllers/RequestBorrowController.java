@@ -1,9 +1,7 @@
 package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.entities.RequestBorrow;
-import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.services.RequestBorrowServices;
-import fr.ugesellsloaning.api.services.UserServices;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,9 +1,7 @@
 package fr.ugesellsloaning.api.security;
 
-//import com.auth0.spring.security.api.JwtWebSecurityConfigurer;
 import fr.ugesellsloaning.api.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,8 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import static fr.ugesellsloaning.api.security.SecurityProperties.SIGN_UP_URL;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -31,6 +27,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected  void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
                 //--------Swagger authorisation------------
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/").permitAll()

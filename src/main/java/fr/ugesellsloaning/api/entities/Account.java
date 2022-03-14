@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -12,8 +13,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Setter
 @Getter
+@ToString
 @Entity
-public class Account {
+public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
@@ -22,6 +24,6 @@ public class Account {
     float solde;
 
     Date editedAt;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     User user;
 }

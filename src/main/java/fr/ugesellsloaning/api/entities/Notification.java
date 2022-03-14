@@ -1,20 +1,19 @@
 package fr.ugesellsloaning.api.entities;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
-public class Notification {
+public class Notification implements Serializable {
     public Notification(){
         createdAt=new Date();
     }
@@ -25,6 +24,6 @@ public class Notification {
     @Column(length = 2000)
     String message;
     Date createdAt;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     User user;
 }
