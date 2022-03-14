@@ -43,6 +43,7 @@ public class UserController {
 
     @PutMapping(value = "/api/user/")
     public void edit(@Valid @RequestBody User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userServices.save(user);
     }
 
