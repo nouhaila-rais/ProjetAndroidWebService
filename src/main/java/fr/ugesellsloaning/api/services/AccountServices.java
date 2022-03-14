@@ -1,11 +1,10 @@
 package fr.ugesellsloaning.api.services;
 
 import fr.ugesellsloaning.api.entities.Account;
+import fr.ugesellsloaning.api.exceptions.ResourceNotFoundException;
 import fr.ugesellsloaning.api.repositories.IAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AccountServices {
@@ -20,8 +19,9 @@ public class AccountServices {
         return accountRepostory.findAll();
     }
 
-    public Optional<Account> getAccountById(long id){
-        return accountRepostory.findById(id);
+    public Account getAccountById(long id){
+
+        return accountRepostory.findById(id).orElseThrow(() -> new ResourceNotFoundException("Account", "id", id));
     }
 
     public void delete(Account account){
