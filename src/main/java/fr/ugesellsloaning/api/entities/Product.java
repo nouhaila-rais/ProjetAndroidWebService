@@ -1,6 +1,7 @@
 package fr.ugesellsloaning.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -79,11 +80,11 @@ public class Product implements Serializable {
 
 
     @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    //@JsonIgnore
+    @JsonIgnore
     Collection<Borrow> borrows;
 
-    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    //@JsonIgnore
+    @OneToMany( cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JsonIgnore
     Collection<RequestBorrow> requestBorrows;
 
     @JsonRawValue

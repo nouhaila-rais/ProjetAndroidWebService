@@ -32,5 +32,5 @@ public class ReturnProduct {
     long id;
     String returnAt;
     long product;
-
+    String state;
 }

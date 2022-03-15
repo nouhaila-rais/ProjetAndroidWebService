@@ -1,7 +1,9 @@
 package fr.ugesellsloaning.api.controllers;
 
+import fr.ugesellsloaning.api.entities.Notification;
 import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.entities.ReturnProduct;
+import fr.ugesellsloaning.api.services.BorrowServices;
 import fr.ugesellsloaning.api.services.ProductServices;
 import fr.ugesellsloaning.api.services.ReturnProductServices;
 import io.swagger.annotations.Api;
