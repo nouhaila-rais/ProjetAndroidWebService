@@ -1,6 +1,5 @@
 package fr.ugesellsloaning.api.entities;
 
-import com.fasterxml.jackson.annotation.JsonRawValue;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -53,14 +52,6 @@ public class Product implements Serializable {
 
     Date createdAt;
 
-    @OneToOne
-    Media image;
-
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true)
-    //@JsonBackReference
-    User user;
-
     @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     //@JsonBackReference
     Collection<Comment> comments;
@@ -69,22 +60,15 @@ public class Product implements Serializable {
     //@JsonBackReference
     Collection<Borrow> borrows;
 
-    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    //@JsonBackReference
-    Collection<RequestBorrow> requestBorrows;
-
-    @JsonRawValue
-    public int totalComment(){
-        return comments.size();
+    public Product(long i, String nom, String catgor, String type, String description, double v, String etat, boolean b, Date date) {
+        this.id = i;
+        this.name = nom;
+        this.category = catgor;
+        this.type = type;
+        this.description = description;
+        this.price = v;
+        this.state = etat;
+        date = new Date();
+        this.createdAt = date;
     }
-
-    @JsonRawValue
-    public double avgRate(){
-        if( comments.size()>0){
-            return (comments.stream().mapToDouble(Comment::getRate).average()).getAsDouble();
-        }else{
-            return 0;
-        }
-    }
-
 }

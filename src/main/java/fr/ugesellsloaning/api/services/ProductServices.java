@@ -33,10 +33,6 @@ public class ProductServices {
 
     public  List<Product> getProductByName(String name){ return productRepostory.findProductsByName(name);}
 
-    public List<Product> getProductOfCurrentUser(String username){
-        return productRepostory.findAllForCurrentUser(username);
-    }
-
     public void delete(Product product){
         productRepostory.delete(product);
     }

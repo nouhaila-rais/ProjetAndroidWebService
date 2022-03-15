@@ -73,10 +73,6 @@ public class User implements Serializable {
     @JsonIgnore
     private String updatedBy;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JsonBackReference(value = "user-product")
-    Collection<Product> products;
-
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JsonBackReference(value = "user-comment")
     Collection<Comment> comments;

@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,7 @@ public class UserController {
     public void register(@Valid @RequestBody User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userServices.save(user);
+        System.out.println("la date du jour est :" + new Date());
     }
 
     @GetMapping(path = "/api/user/{id}")
