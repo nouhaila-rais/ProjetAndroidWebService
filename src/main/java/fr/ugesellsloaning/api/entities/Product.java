@@ -21,7 +21,7 @@ import java.util.Date;
 public class Product implements Serializable {
     public  Product(){
         createdAt = new Date();
-        available = false;
+        available = true;
     }
 
     @Id
@@ -52,13 +52,21 @@ public class Product implements Serializable {
 
     Date createdAt;
 
+
+    @Column(length = 500)
+    String path;
+
     @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     //@JsonBackReference
-    Collection<Comment> comments;
+            Collection<Comment> comments;
 
     @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     //@JsonBackReference
     Collection<Borrow> borrows;
+
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    //@JsonBackReference
+    Collection<RequestBorrow> requestBorrows;
 
     public Product(long i, String nom, String catgor, String type, String description, double v, String etat, boolean b, Date date) {
         this.id = i;
@@ -70,5 +78,6 @@ public class Product implements Serializable {
         this.state = etat;
         date = new Date();
         this.createdAt = date;
+        //this.image = media;
     }
 }

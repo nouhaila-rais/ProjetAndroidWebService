@@ -1,5 +1,6 @@
 package fr.ugesellsloaning.api.controllers;
 
+
 import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.services.ProductServices;
@@ -29,23 +30,13 @@ public class ProductController {
     @Autowired
     HttpServletRequest request;
 
+
     private  Logger log = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping(path = "/")
     public List<Product> list(){
         return (List<Product>) productServices.listProduct();
     }
-
-    /*
-    @GetMapping(path = "/current-user/")
-    //@PostAuthorize("hasAuthority('ADMIN') || (returnObject != null && returnObject.getUser().getEmail() == authentication.name)")
-    public List<Product> listProductOfUser(){
-        String username = request.getUserPrincipal().getName();
-        log.info("Load product of Current user "+username);
-        return productServices.getProductOfCurrentUser(username);
-    }
-
-     */
 
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody Product product){
@@ -83,15 +74,6 @@ public class ProductController {
         String username = request.getUserPrincipal().getName();
         log.info("Edit product by "+username);
         User user = userServices.getUserByEmail(username);
-
-        /*
-        if(product.getUser() == user || user.getRole()=="admin"){
-            productServices.save(product);
-        }else{
-            throw new Exception("Erreur vous devez etre admin ou proprietaire");
-        }
-
-         */
     }
 
     @DeleteMapping("/{id}")
