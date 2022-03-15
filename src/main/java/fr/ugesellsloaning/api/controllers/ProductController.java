@@ -1,6 +1,5 @@
 package fr.ugesellsloaning.api.controllers;
 
-
 import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.services.ProductServices;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -30,36 +28,30 @@ public class ProductController {
     @Autowired
     HttpServletRequest request;
 
+    private Product p;
+    //@Autowired
+    //private FileService fileService;
 
     private  Logger log = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping(path = "/")
     public List<Product> list(){
+
         return (List<Product>) productServices.listProduct();
+
     }
 
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody Product product){
-        //, @RequestParam("file") MultipartFile file
-        //String fileName = fileService.storeFile(file);
-        //log.info("Create product with image "+fileName);
-        /*ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
-                .path(fileName)
-                .toUriString();*/
-        //String username = request.getUserPrincipal().getName();
-        //log.info("Add product by "+username);
-        //User user = userServices.getUserByEmail(username);
-        //product.setUser(user);
-        //product.setImage(fileName);
         productServices.save(product);
+
     }
 
     @GetMapping(path = "/{id}")
     //@PostAuthorize("hasAuthority('ADMIN') || (returnObject != null && returnObject.getUser().getEmail() == authentication.principal)")
     public Product getById(@PathVariable(value = "id")  long id){
-        //return productServices.getProductById(id);
-        return new Product(new Long(23), "nom", "catgory", "type", "description", 22.2, "Etat", true, new Date());
+        return productServices.getProductById(id);
+        //return new Product(new Long(23), "nom", "catgory", "type", "description", 22.2, "Etat", true, new Date());
     }
 
     @GetMapping(path = "/name/{name}")
@@ -80,4 +72,6 @@ public class ProductController {
     public void deleteById(@PathVariable(value = "id")  long id){
         productServices.deleteById(id);
     }
+
+
 }

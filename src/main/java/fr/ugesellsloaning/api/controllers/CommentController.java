@@ -3,6 +3,7 @@ package fr.ugesellsloaning.api.controllers;
 import fr.ugesellsloaning.api.entities.Comment;
 import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.services.CommentServices;
+import fr.ugesellsloaning.api.services.ProductServices;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,10 @@ public class CommentController {
     @Autowired
     CommentServices commentServices;
 
+
+    @Autowired
+    ProductServices productServices;
+
     @GetMapping(path = "/")
     public List<Comment> list(){
         return (List<Comment>) commentServices.listComment();
@@ -25,16 +30,28 @@ public class CommentController {
 
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody  Comment comment){
+        // product.setUser(user);
+        //product.setImage(fileName);
+        //User user = userServices.getUserByEmail(username);
+        //long id=3;
+        // Optional<Product> product = productServices.getProductById(id);
+        //comment.setProduct(product.get());
+
+
+        // One one = oneRepository(many.getOne_id()); //Get the parent Object
+        //Many newMany  = new Many(); //Create a new Many object
+        //newMany.setName(many.getName());
+        //newMany.setOne(one); // Set the pa
+
+        //Product product = productServices(comment.getProduct())
+
+
         commentServices.save(comment);
     }
 
     @GetMapping(path = "/{id}")
     public Optional<Comment> getById(@PathVariable(value = "id")  long id){ return  commentServices.getCommentById(id); }
 
-    @GetMapping(path = "/product/{product}")
-    public List<Comment> getByLogin(@PathVariable(value = "product") Product product){
-        return  commentServices.getCommentByProduct(product);
-    }
 
     @PutMapping(value = "/")
     public void edit(@Valid @RequestBody  Comment comment){

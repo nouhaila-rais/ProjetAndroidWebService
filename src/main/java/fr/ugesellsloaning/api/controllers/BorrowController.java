@@ -1,7 +1,9 @@
 package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.entities.Borrow;
+import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.services.BorrowServices;
+import fr.ugesellsloaning.api.services.ProductServices;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +20,27 @@ public class BorrowController {
     @Autowired
     BorrowServices borrowServices;
 
+    @Autowired
+    ProductServices productServices;
+
     @GetMapping(path = "/")
     public List<Borrow> list(){
         return (List<Borrow>) borrowServices.listBorrow();
     }
 
+    @GetMapping(path = "/borrowByProduct/{id}")
+    public List<Borrow> listProduct(@PathVariable(value = "id")  long id){
+        return  borrowServices.getBorrowByProduct(id);
+    }
+
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody  Borrow borrow){
         borrowServices.save(borrow);
+
+        Product p = productServices.getProductById(borrow.getProduct());
+        p.setAvailable(false);
+        productServices.save(p);
+
     }
 
     @GetMapping(path = "/{id}")
@@ -43,4 +58,5 @@ public class BorrowController {
     public void deleteById(@PathVariable(value = "id")  long id){
         borrowServices.deleteById(id);
     }
+
 }

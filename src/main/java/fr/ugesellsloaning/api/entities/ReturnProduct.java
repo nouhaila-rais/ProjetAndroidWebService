@@ -1,44 +1,36 @@
 package fr.ugesellsloaning.api.entities;
 
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor
-@Getter
 @Setter
+@Getter
+@AllArgsConstructor
 @ToString
 @Entity
-public class RequestBorrow implements Serializable {
-    public RequestBorrow(){
+public class ReturnProduct {
+
+    public ReturnProduct(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date d = new Date();
-        askedAt = dateFormat.format(d).toString();
-        status=false;
-    }
+        returnAt = dateFormat.format(d).toString();
 
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
-
-    String askedAt;
-
-    boolean status;
-
-    String startAt;
-
-    String endAt;
-
+    String returnAt;
     long product;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    User user;
 
 }

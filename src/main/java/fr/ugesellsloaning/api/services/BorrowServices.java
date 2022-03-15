@@ -1,10 +1,13 @@
 package fr.ugesellsloaning.api.services;
 
 import fr.ugesellsloaning.api.entities.Borrow;
+import fr.ugesellsloaning.api.entities.Product;
+import fr.ugesellsloaning.api.entities.ReturnProduct;
 import fr.ugesellsloaning.api.repositories.IBorrowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,12 +17,22 @@ public class BorrowServices {
     @Autowired
     private IBorrowRepository borrowRepostory;
 
+    @Autowired
+    ReturnProductServices returnProductServices;
+
     public void save(Borrow borrow){
+
         borrowRepostory.save(borrow);
+
     }
 
     public Iterable<Borrow> listBorrow(){
-        return borrowRepostory.findAll();
+
+        Iterable<Borrow> list =borrowRepostory.findAll();;
+        for (Borrow b:list) {
+            b.setReturnProduct(returnProductServices.getReturnProductByProduct(b.getProduct()));
+        }
+        return list;
     }
 
     public Optional<Borrow> getBorrowById(long id){ return borrowRepostory.findById(id); }
@@ -34,9 +47,7 @@ public class BorrowServices {
         borrowRepostory.deleteById(id);
     }
 
-
-
-
-
-
+    public List<Borrow> getBorrowByProduct(long product){
+        return borrowRepostory.findBorrowByProduct(product); }
 }
+

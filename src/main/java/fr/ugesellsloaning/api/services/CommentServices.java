@@ -28,10 +28,8 @@ public class CommentServices {
         commentRepository.deleteById(id);
     }
 
-    public List<Comment> getCommentByProduct(Product product){ return commentRepository.findCommentByProduct(product); }
-
-
-
-
+    public List<Comment> getCommentByProduct(long product){
+        return commentRepository.findCommentByProduct(product);
+    }
 
 }

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface IBorrowRepository extends CrudRepository<Borrow, Long> {
         List<Borrow> findByEndAt(Date d);
+        List<Borrow> findBorrowByProduct(long product);
+
 }

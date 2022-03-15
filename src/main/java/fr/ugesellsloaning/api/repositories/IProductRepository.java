@@ -13,5 +13,5 @@ public interface IProductRepository extends CrudRepository<Product, Long> {
     List<Product> findProductsByName(String name);
 
     List<Product> findProductsByCategory(String category);
-
+    Product findById(long id);
 }
