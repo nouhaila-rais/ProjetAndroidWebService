@@ -6,5 +6,5 @@ public class SecurityProperties {
     protected static final String TOKEN_PREFIX = "Bearer ";
     protected static final String HEADER_STRING = "Authorization";
     protected static final String SIGN_UP_URL = "/register";
-    protected static final String DEFAULT_INCLUDE_PATTERN = "/apii/.*";
+    protected static final String DEFAULT_INCLUDE_PATTERN = "/api/toRemove.*";
 }

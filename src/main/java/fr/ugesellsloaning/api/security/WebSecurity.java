@@ -38,8 +38,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("**/*.html").permitAll()
                 .antMatchers("**/*.css").permitAll()
                 .antMatchers("**/*.js").permitAll()
-                //----------------------------------------
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
+                //.anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
