@@ -56,10 +56,13 @@ public class User implements Serializable {
     //@JsonIgnore
     String password;
 
+    @Column
     String phone;
 
+    @Column
     String address;
 
+    @Column
     String role;
 
     @LastModifiedDate

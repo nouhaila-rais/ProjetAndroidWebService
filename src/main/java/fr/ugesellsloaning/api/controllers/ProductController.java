@@ -2,6 +2,7 @@ package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.entities.User;
+import fr.ugesellsloaning.api.services.FileService;
 import fr.ugesellsloaning.api.services.ProductServices;
 import fr.ugesellsloaning.api.services.UserServices;
 import io.swagger.annotations.Api;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Api( tags={"Operations Produits \"Product\""})
 @RestController
@@ -28,6 +31,9 @@ public class ProductController {
 
     @Autowired
     HttpServletRequest request;
+
+    @Autowired
+    private FileService fileService;
 
     private  Logger log = LoggerFactory.getLogger(ProductController.class);
 
@@ -45,11 +51,18 @@ public class ProductController {
     }
 
     @PostMapping(path = "/")
-    public void add(@Valid @RequestBody Product product){
+    public void add(@Valid @RequestBody Product product, @RequestParam("file") MultipartFile file){
+        String fileName = fileService.storeFile(file);
+        log.info("Create product with image "+fileName);
+        /*ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/downloadFile/")
+                .path(fileName)
+                .toUriString();*/
         String username = request.getUserPrincipal().getName();
         log.info("Add product by "+username);
         User user = userServices.getUserByEmail(username);
         product.setUser(user);
+        //product.setImage(fileName);
         productServices.save(product);
     }
 
