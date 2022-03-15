@@ -21,9 +21,7 @@ public class Media {
     @Column
     String filename;
 
-    @Column
-    @Lob
-    @JsonIgnore
-    byte[] file;
+    @Column(length = 500)
+    String path;
 
 }

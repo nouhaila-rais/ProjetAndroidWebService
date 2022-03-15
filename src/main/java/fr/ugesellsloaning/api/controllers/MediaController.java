@@ -1,9 +1,12 @@
 package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.configuration.FileStorageProperties;
+import fr.ugesellsloaning.api.entities.Account;
 import fr.ugesellsloaning.api.entities.Media;
+import fr.ugesellsloaning.api.services.AccountServices;
 import fr.ugesellsloaning.api.services.MediaServices;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -15,10 +18,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.ServletContext;
+import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 
 @Api( tags={"Operations \"Media\""})
@@ -31,26 +40,32 @@ public class MediaController {
     @Autowired
     FileStorageProperties fileStorageProperties;
 
-    @PostMapping(path = "/")
-    public ResponseEntity uploadToDB(@RequestParam("file") MultipartFile file) {
+    @Autowired
+    ServletContext context;
+
+    @PostMapping("/")
+    public ResponseEntity upload(@RequestParam("file") MultipartFile file) {
         Media media = new Media();
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Path path = Paths.get(fileStorageProperties.getUploadDir() + fileName);
         media.setFilename(fileName);
         try {
-            media.setFile(file.getBytes());
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mediaServices.save(media);
+
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/files/download/")
-                .path(fileName).path("/db")
+                .path("/api/media/")
+                .path(fileName)
                 .toUriString();
+        media.setPath(fileDownloadUri);
+        mediaServices.save(media);
         return ResponseEntity.ok(fileDownloadUri);
     }
 
-    @GetMapping("/download/{fileName:.+}")
-    public ResponseEntity downloadFileFromLocal(@PathVariable String fileName) {
+    @GetMapping("/{fileName:.+}")
+    public ResponseEntity download(@PathVariable String fileName) {
         Path path = Paths.get(fileStorageProperties.getUploadDir() + fileName);
         Resource resource = null;
         try {
@@ -59,17 +74,22 @@ public class MediaController {
             e.printStackTrace();
         }
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("contentType"))
+                .contentType(MediaType.parseMediaType("image/jpeg"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
 
-    @GetMapping("/download/{fileName:.+}/db")
-    public ResponseEntity downloadFromDB(@PathVariable String fileName) {
-        Media media = mediaServices.getMediaByFilename(fileName);
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("contentType"))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
-                .body(media.getFile());
+    @DeleteMapping("/{filename:.+}")
+    public ResponseEntity delete(@PathVariable String filename){
+        File file = new File(fileStorageProperties.getUploadDir()+filename);
+        if(file.delete()){
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+
     }
+
+
+
 }

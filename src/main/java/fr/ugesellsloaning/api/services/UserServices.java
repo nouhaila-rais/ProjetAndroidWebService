@@ -25,12 +25,12 @@ public class UserServices{
         return userRepository.findById(id);
     }
 
-    public User getUserByEmail(String email){
-        return userRepository.findByEmail(email);
-    }
-
     public List<User> getUserByLogin(String login){
         return userRepository.findAllByLogin(login);
+    }
+
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
     public void delete(User user){
