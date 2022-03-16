@@ -2,6 +2,7 @@ package fr.ugesellsloaning.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -62,7 +63,6 @@ public class User implements Serializable {
     @NotBlank(message = "Password cannot be null")
     @Size(min=6, max = 255, message = "Le mot de passe doit avoir au moins 6 caractère")
     @Column(length = 255, nullable = false)
-    //@JsonIgnore
     String password;
 
     @Column
@@ -84,11 +84,21 @@ public class User implements Serializable {
 
     long NberOfTimesToBorrow;
 
+    @JsonRawValue
+    public int totalBorrow(){
+        return borrows.size();
+    }
+
+    @JsonRawValue
+    public int totalNotification(){
+        return notifications.size();
+    }
+
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JsonBackReference(value = "user-product")
+    //@JsonBackReference(value = "user-product")
     Collection<Product> products;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JsonBackReference(value = "user-comment")
     Collection<Comment> comments;
 
@@ -97,12 +107,12 @@ public class User implements Serializable {
     @JsonBackReference(value = "user-account")
     Account account;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JsonBackReference(value = "user-notification")
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    //@JsonBackReference(value = "user-notification")
     Collection<Notification> notifications;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JsonBackReference(value = "user-borrows")
+    @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    //@JsonBackReference(value = "user-borrows")
     Collection<Borrow> borrows;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)

@@ -14,15 +14,21 @@ public class CommentServices {
     @Autowired
     private ICommentRepository commentRepository;
 
-    public void save(Comment comment){ commentRepository.save(comment); }
+    public void save(Comment comment){
+        commentRepository.save(comment);
+    }
 
-    public Iterable<Comment> listComment(){ return commentRepository.findAll(); }
+    public Iterable<Comment> listComment(){
+        return commentRepository.findAll();
+    }
 
     public Optional<Comment> getCommentById(long id){
         return commentRepository.findById(id);
     }
 
-    public void delete( Comment comment){ commentRepository.delete(comment); }
+    public void delete( Comment comment){
+        commentRepository.delete(comment);
+    }
 
     public void deleteById(Long id){
         commentRepository.deleteById(id);
@@ -32,4 +38,7 @@ public class CommentServices {
         return commentRepository.findCommentByProduct(product);
     }
 
+    public List<Comment> getCommentByUser(long user){
+        return commentRepository.findCommentByUser(user);
+    }
 }

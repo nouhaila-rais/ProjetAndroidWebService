@@ -30,8 +30,10 @@ public class Borrow implements Serializable {
 
     long product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    User user;
+    long user;
+
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //User user;
 
     @OneToOne(fetch = FetchType.LAZY)
     ReturnProduct returnProduct;

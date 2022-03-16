@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
+import java.util.Vector;
 
 @Service
 public class ProductServices {
@@ -39,7 +39,7 @@ public class ProductServices {
         Iterable<Product> list = productRepostory.findAll();
         for (Product p:list) {
             p.setComments(commentServices.getCommentByProduct(p.getId()));
-            p.setBorrows((Collection<Borrow>) borrowServices.getBorrowByProduct(p.getId()));
+            p.setBorrows(borrowServices.getBorrowByProduct(p.getId()));
             p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
         }
         return list;
@@ -48,23 +48,38 @@ public class ProductServices {
     public Product getProductById(long id){
 
         Product p = productRepostory.findById(id);
-        p.setComments(commentServices.getCommentByProduct(p.getId()));
-        p.setBorrows((Collection<Borrow>) borrowServices.getBorrowByProduct(p.getId()));
-        p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
+        if(p!=null){
+            p.setComments(commentServices.getCommentByProduct(p.getId()));
+            p.setBorrows((Collection<Borrow>) borrowServices.getBorrowByProduct(p.getId()));
+            p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
+        }
         return p;
     }
 
     public List<Product> getProductByCategory(String category){
         List<Product> list = productRepostory.findProductsByCategory(category);
-        for (Product p:list) {
-            p.setComments(commentServices.getCommentByProduct(p.getId()));
-            p.setBorrows((Collection<Borrow>) borrowServices.getBorrowByProduct(p.getId()));
-            p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
+        if(list!=null) {
+            for (Product p : list) {
+                p.setComments(commentServices.getCommentByProduct(p.getId()));
+                p.setBorrows((Collection<Borrow>) borrowServices.getBorrowByProduct(p.getId()));
+                p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
+            }
         }
         return list;
     }
 
-    public  List<Product> getProductByName(String name){ return productRepostory.findProductsByName(name);}
+    public  List<Product> getProductByName(String name){
+        List<Product> list = productRepostory.findProductsByName(name);
+        if(list!=null){
+            for (Product p:list) {
+                p.setComments(commentServices.getCommentByProduct(p.getId()));
+                p.setBorrows((borrowServices.getBorrowByProduct(p.getId())));
+                p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
+            }
+        }
+
+        return list;
+    }
 
     public void delete(Product product){
         productRepostory.delete(product);
@@ -74,6 +89,13 @@ public class ProductServices {
         productRepostory.deleteById(id);
     }
 
-
-
+    public List<Product> getProductsByKeyWord(String key){
+        Iterable<Product> list= listProduct();
+        Vector<Product> res =new Vector<Product>();
+        for (Product product : list) {
+            if (product.getName().toLowerCase().contains(key) || product.getCategory().toLowerCase().contains(key) || product.getType().toLowerCase().contains(key))
+                res.add(product);
+        }
+        return res;
+    }
 }

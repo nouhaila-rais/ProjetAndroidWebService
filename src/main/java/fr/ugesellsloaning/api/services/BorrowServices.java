@@ -41,9 +41,13 @@ public class BorrowServices {
 
     }
 
-    public Optional<Borrow> getBorrowById(long id){ return borrowRepostory.findById(id); }
+    public Optional<Borrow> getBorrowById(long id){
+        return borrowRepostory.findById(id);
+    }
 
-    public List<Borrow> getBorrowByEndAt(Date date){ return borrowRepostory.findByEndAt(date); }
+    public List<Borrow> getBorrowByEndAt(Date date){
+        return borrowRepostory.findByEndAt(date);
+    }
 
     public void delete(Borrow borrow){
         borrowRepostory.delete(borrow);
@@ -54,11 +58,21 @@ public class BorrowServices {
     }
 
     public List<Borrow> getBorrowByProduct(long product){
-        return borrowRepostory.findBorrowByProduct(product); }
+        return borrowRepostory.findBorrowByProduct(product);
+    }
 
     public Borrow BorrowReturnedIsFalse(long product){
         return borrowRepostory.borrowIsFalse(product);
     }
+
+    public List<Borrow> borrowByUser(long user){
+        return borrowRepostory.borrowByUser(user);
+    }
+
+    public List<Borrow> getBorrowByUser(long user){
+        return borrowRepostory.findBorrowByUser(user);
+    }
+
 }
 
 

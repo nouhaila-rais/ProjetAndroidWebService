@@ -37,17 +37,21 @@ public class Comment implements Serializable {
     @Column(length = 2000)
     String content;
 
-
-
     int rate;
 
     String createdAt;
 
     long product;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @Fetch(FetchMode.JOIN)
-    User user;
+    String lastName;
+
+    String firstName;
+
+    long user;
+
+    //@ManyToOne(optional = true, fetch = FetchType.LAZY)
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    //@Fetch(FetchMode.JOIN)
+    //User user;
 
 }

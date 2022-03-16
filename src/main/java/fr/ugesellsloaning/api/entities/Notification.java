@@ -30,9 +30,17 @@ public class Notification implements Serializable {
     long id;
     @NotBlank(message = "Message cannot be null")
     @Column(length = 2000)
+
     String message;
+
     String createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    User user;
+    long user;
+
+    long product;
+
+    String image;
+
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //User user;
 }

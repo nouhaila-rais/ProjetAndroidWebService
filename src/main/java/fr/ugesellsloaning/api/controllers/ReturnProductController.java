@@ -7,6 +7,7 @@ import fr.ugesellsloaning.api.entities.ReturnProduct;
 import fr.ugesellsloaning.api.services.BorrowServices;
 import fr.ugesellsloaning.api.services.ProductServices;
 import fr.ugesellsloaning.api.services.ReturnProductServices;
+import fr.ugesellsloaning.api.services.WaitingListServices;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,9 @@ public class ReturnProductController {
 
     @Autowired
     BorrowServices borrowServices;
+
+    @Autowired
+    WaitingListServices waitingListServices;
 
     @GetMapping(path = "/")
     public List<ReturnProduct> list(){
@@ -49,6 +53,8 @@ public class ReturnProductController {
         Borrow  b = borrowServices.BorrowReturnedIsFalse(returnProduct.getProduct());
         b.setReturned(true);
         borrowServices.save(b);
+        waitingListServices.WaitingListTraitement(p.getId());
+
     }
 
     @GetMapping(path = "/{id}")

@@ -49,7 +49,7 @@ public class BorrowController {
     public void add(@Valid @RequestBody  Borrow borrow){
         String email = "nouhailarais14@mail.com";
         User user = userServices.getUserByEmail(email);
-        borrow.setUser(user);
+        borrow.setUser(user.getId());
         //borrow
         borrowServices.save(borrow);
 

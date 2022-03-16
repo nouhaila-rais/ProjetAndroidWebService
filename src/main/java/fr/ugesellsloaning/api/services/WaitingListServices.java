@@ -92,23 +92,25 @@ public class WaitingListServices {
 
     }
 
-    public User WaitingListTraitement(long product) {
+    public void WaitingListTraitement(long product) {
         WaitingList la =  getWaitingListByProduct(product);
         User u = UserPioritary(la);
         if(u!=null) {
             Product p = productServices.getProductById(product);
             String date = requestBorrowServices.getResquestBorrowByProductAndUser(product, u.getId()).getAskedAt();
 
-            String notifiaction = "Le produit "+p.getName() +" est actuellement disponible vous pouvez l\\'emprunter dès maintentant";
+            String notification = "Le produit "+p.getName() +" est actuellement disponible vous pouvez l\\'emprunter dès maintentant";
             Notification n =  new Notification();
-            n.setMessage(notifiaction);
-            n.setUser(u);
+            n.setMessage(notification);
+            n.setUser(u.getId());
+            n.setProduct(p.getId());
+            n.setImage(p.getPath());
             notificationServices.save(n);
-            String message ="Bonjour,\nVous avez demander d\'emprunter le produit : "+p.getName()+" à "+date+ ", il est actuellement disponible vous pouvez l\'emprunter dès maintentant.\nUniversité Gustave Eiffel";
-            String objet = "Produit "+ p.getName()+" est disponible";
-            notificationServices.SendMailNotificationUtilisateur(u, objet, message);
+            String message ="Bonjour ,\n\nVous avez demander d\'emprunter le produit : "+p.getName()+" à "+date+ ", il est actuellement disponible vous pouvez l\'emprunter dès maintentant.\n Cordialement.\nUniversité Gustave Eiffel";
+            String object = "Produit "+ p.getName()+" est disponible !";
+            notificationServices.SendMailNotificationUtilisateur(u, object, message);
         }
-        return u;
+
     }
 
 }

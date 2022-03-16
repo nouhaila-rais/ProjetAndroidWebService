@@ -79,4 +79,8 @@ public class NotificationServices {
 
     }
 
+    public List<Notification> getNotificationByUser(long user){
+        return notificationRepository.findNotificationByUser(user);
+    }
+
 }

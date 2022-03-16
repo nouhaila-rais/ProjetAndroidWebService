@@ -51,7 +51,9 @@ public class CommentController {
         //Product product = productServices(comment.getProduct())
         String email = "nouhailarais14@mail.com";
         User user = userServices.getUserByEmail(email);
-        comment.setUser(user);
+        comment.setUser(user.getId());
+        comment.setLastName(user.getLastName());
+        comment.setFirstName(user.getFirstName());
 
         commentServices.save(comment);
     }
@@ -59,6 +61,8 @@ public class CommentController {
     @GetMapping(path = "/{id}")
     public Optional<Comment> getById(@PathVariable(value = "id")  long id){ return  commentServices.getCommentById(id); }
 
+    @GetMapping(path = "/user/{user}")
+    public List<Comment> getByUser(@PathVariable(value = "user")  long user){ return  commentServices.getCommentByUser(user); }
 
     @PutMapping(value = "/")
     public void edit(@Valid @RequestBody  Comment comment){

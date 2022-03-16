@@ -62,4 +62,8 @@ public class RequestBorrowServices {
         }
         return res;
     }
+
+    public List<RequestBorrow> getRequestBorrowByUserStatusIsFalse(long user){
+        return requestBorrowRepository.requestBorrowByUser(user);
+    }
 }

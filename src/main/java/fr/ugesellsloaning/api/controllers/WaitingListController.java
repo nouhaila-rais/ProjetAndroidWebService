@@ -17,8 +17,8 @@ public class WaitingListController {
     @Autowired
     WaitingListServices waitingListServices;
 
-    @GetMapping(path = "/{product}")
-    public User getProirity(@PathVariable(value = "product")  long product){
-        return  waitingListServices.WaitingListTraitement(product);
-    }
+    //@GetMapping(path = "/{product}")
+    //public User getProirity(@PathVariable(value = "product")  long product){
+      //  return  waitingListServices.WaitingListTraitement(product);
+    //}
 }
