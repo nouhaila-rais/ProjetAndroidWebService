@@ -40,6 +40,7 @@ public class ReturnProductController {
 
         Product p = productServices.getProductById(returnProduct.getProduct());
         p.setAvailable(true);
+        p.setState(returnProduct.getState());
         productServices.save(p);
 
 

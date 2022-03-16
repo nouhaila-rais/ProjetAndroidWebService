@@ -5,6 +5,10 @@ import fr.ugesellsloaning.api.repositories.IWaitingList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -24,6 +28,9 @@ public class WaitingListServices {
 
     @Autowired
     ProductServices productServices;
+
+    @Autowired
+    NotificationServices notificationServices;
 
     public void save(WaitingList waitingList){
         iWaitingList.save(waitingList);
@@ -91,7 +98,17 @@ public class WaitingListServices {
         if(u!=null) {
             Product p = productServices.getProductById(product);
             String date = requestBorrowServices.getResquestBorrowByProductAndUser(product, u.getId()).getAskedAt();
+
+            String notifiaction = "Le produit "+p.getName() +" est actuellement disponible vous pouvez l\\'emprunter dès maintentant";
+            Notification n =  new Notification();
+            n.setMessage(notifiaction);
+            n.setUser(u);
+            notificationServices.save(n);
+            String message ="Bonjour,\nVous avez demander d\'emprunter le produit : "+p.getName()+" à "+date+ ", il est actuellement disponible vous pouvez l\'emprunter dès maintentant.\nUniversité Gustave Eiffel";
+            String objet = "Produit "+ p.getName()+" est disponible";
+            notificationServices.SendMailNotificationUtilisateur(u, objet, message);
         }
         return u;
     }
+
 }

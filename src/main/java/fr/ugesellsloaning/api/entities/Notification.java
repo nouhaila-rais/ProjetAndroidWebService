@@ -6,7 +6,11 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @Getter
@@ -15,15 +19,20 @@ import java.util.Date;
 @Entity
 public class Notification implements Serializable {
     public Notification(){
-        createdAt=new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = new Date();
+        createdAt = dateFormat.format(d).toString();
     }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
     @NotBlank(message = "Message cannot be null")
     @Column(length = 2000)
     String message;
-    Date createdAt;
+    String createdAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     User user;
 }

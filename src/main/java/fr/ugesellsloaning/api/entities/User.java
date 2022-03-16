@@ -88,13 +88,13 @@ public class User implements Serializable {
 
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JsonBackReference(value = "user-product")
+    //@JsonBackReference(value = "user-product")
     Collection<Product> products;
 
 
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JsonBackReference(value = "user-comment")
+    //@JsonBackReference(value = "user-comment")
     Collection<Comment> comments;
 
 
@@ -106,11 +106,11 @@ public class User implements Serializable {
     Account account;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JsonBackReference(value = "user-notification")
+    //@JsonBackReference(value = "user-notification")
     Collection<Notification> notifications;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JsonBackReference(value = "user-borrows")
+    //@JsonBackReference(value = "user-borrows")
     Collection<Borrow> borrows;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
