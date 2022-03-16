@@ -34,7 +34,7 @@ public class ReturnProductServices {
         iReturnProductRepository.deleteById(id);
     }
 
-    public ReturnProduct getReturnProductByProduct(long product){
+    public List<ReturnProduct> getReturnProductByProduct(long product){
         return iReturnProductRepository.findReturnProductByProduct(product);
     }
 

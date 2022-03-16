@@ -2,6 +2,7 @@ package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.entities.User;
+//import fr.ugesellsloaning.api.services.FileService;
 import fr.ugesellsloaning.api.services.ProductServices;
 import fr.ugesellsloaning.api.services.UserServices;
 import io.swagger.annotations.Api;
@@ -43,6 +44,21 @@ public class ProductController {
 
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody Product product){
+        //, @RequestParam("file") MultipartFile file
+        //String fileName = fileService.storeFile(file);
+        //log.info("Create product with image "+fileName);
+        /*ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/downloadFile/")
+                .path(fileName)
+                .toUriString();*/
+        //String username = request.getUserPrincipal().getName();
+        //log.info("Add product by "+username);
+        //User user = userServices.getUserByEmail(username);
+        //product.setUser(user);
+        //product.setImage(fileName);
+        String email = "kanghebalde@mail.com";
+        User user = userServices.getUserByEmail(email);
+        product.setUser(user);
         productServices.save(product);
 
     }
@@ -66,6 +82,7 @@ public class ProductController {
         String username = request.getUserPrincipal().getName();
         log.info("Edit product by "+username);
         User user = userServices.getUserByEmail(username);
+
     }
 
     @DeleteMapping("/{id}")

@@ -1,5 +1,6 @@
 package fr.ugesellsloaning.api.controllers;
 
+import fr.ugesellsloaning.api.entities.Borrow;
 import fr.ugesellsloaning.api.entities.Notification;
 import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.entities.ReturnProduct;
@@ -24,6 +25,9 @@ public class ReturnProductController {
     @Autowired
     ProductServices productServices;
 
+    @Autowired
+    BorrowServices borrowServices;
+
     @GetMapping(path = "/")
     public List<ReturnProduct> list(){
         return (List<ReturnProduct>) returnProductServices.listReturnProduct();
@@ -37,6 +41,14 @@ public class ReturnProductController {
         Product p = productServices.getProductById(returnProduct.getProduct());
         p.setAvailable(true);
         productServices.save(p);
+
+        List<Borrow> list = borrowServices.getBorrowByProduct(returnProduct.getProduct());
+        for (Borrow b: list) {
+            b.setReturned(true);
+            borrowServices.save(b);
+        }
+
+
     }
 
     @GetMapping(path = "/{id}")

@@ -30,9 +30,13 @@ public class BorrowServices {
 
         Iterable<Borrow> list =borrowRepostory.findAll();;
         for (Borrow b:list) {
-            b.setReturnProduct(returnProductServices.getReturnProductByProduct(b.getProduct()));
+            List<ReturnProduct> r = returnProductServices.getReturnProductByProduct(b.getProduct());
+            for (ReturnProduct t: r) {
+                b.setReturnProduct(t);
+            }
         }
         return list;
+
     }
 
     public Optional<Borrow> getBorrowById(long id){ return borrowRepostory.findById(id); }

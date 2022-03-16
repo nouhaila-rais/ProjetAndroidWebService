@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface IReturnProductRepository extends CrudRepository<ReturnProduct, Long> {
 
-    ReturnProduct findReturnProductByProduct(long product);
+    List<ReturnProduct> findReturnProductByProduct(long product);
 }

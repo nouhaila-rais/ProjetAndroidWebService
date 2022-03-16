@@ -2,8 +2,10 @@ package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.entities.Comment;
 import fr.ugesellsloaning.api.entities.Product;
+import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.services.CommentServices;
 import fr.ugesellsloaning.api.services.ProductServices;
+import fr.ugesellsloaning.api.services.UserServices;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,9 @@ public class CommentController {
 
     @Autowired
     ProductServices productServices;
+
+    @Autowired
+    UserServices userServices;
 
     @GetMapping(path = "/")
     public List<Comment> list(){
@@ -44,7 +49,9 @@ public class CommentController {
         //newMany.setOne(one); // Set the pa
 
         //Product product = productServices(comment.getProduct())
-
+        String email = "kanghebalde@mail.com";
+        User user = userServices.getUserByEmail(email);
+        comment.setUser(user);
 
         commentServices.save(comment);
     }

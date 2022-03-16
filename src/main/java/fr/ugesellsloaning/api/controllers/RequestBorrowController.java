@@ -1,7 +1,9 @@
 package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.entities.RequestBorrow;
+import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.services.RequestBorrowServices;
+import fr.ugesellsloaning.api.services.UserServices;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,9 @@ public class RequestBorrowController {
     @Autowired
     RequestBorrowServices requestBorrowServices;
 
+    @Autowired
+    UserServices userServices;
+
     @GetMapping(path = "/")
     public List<RequestBorrow> list(){
         return (List<RequestBorrow>) requestBorrowServices.listRequestBorrow();
@@ -24,6 +29,10 @@ public class RequestBorrowController {
 
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody RequestBorrow requestBorrow){
+        String email = "kanghebalde@mail.com";
+        User user = userServices.getUserByEmail(email);
+        requestBorrow.setUser(user);
+
         requestBorrowServices.save(requestBorrow);
     }
 
