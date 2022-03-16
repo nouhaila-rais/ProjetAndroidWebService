@@ -2,6 +2,7 @@ package fr.ugesellsloaning.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -89,12 +90,14 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     //@JsonBackReference(value = "user-product")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Collection<Product> products;
 
 
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     //@JsonBackReference(value = "user-comment")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Collection<Comment> comments;
 
 
@@ -102,11 +105,13 @@ public class User implements Serializable {
 
     @OneToOne(mappedBy = "user",cascade = {CascadeType.ALL}, optional = true, fetch = FetchType.LAZY)
     @JoinColumn(nullable = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonBackReference(value = "user-account")
     Account account;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     //@JsonBackReference(value = "user-notification")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Collection<Notification> notifications;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
@@ -115,5 +120,6 @@ public class User implements Serializable {
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JsonBackReference(value = "user-request")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Collection<RequestBorrow> requestBorrows;
 }
