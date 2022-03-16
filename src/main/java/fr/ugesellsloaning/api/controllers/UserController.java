@@ -34,10 +34,9 @@ public class UserController {
     }
 
     @GetMapping(path = "/api/user/{id}")
-    public Optional<User> getById(@PathVariable(value = "id")  long id){
+    public User getById(@PathVariable(value = "id")  long id){
         return  userServices.getUserById(id);
     }
-
 
     @PutMapping(value = "/api/user/")
     public void edit(@Valid @RequestBody User user){

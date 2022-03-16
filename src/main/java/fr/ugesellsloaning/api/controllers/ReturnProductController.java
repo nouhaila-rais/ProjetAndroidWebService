@@ -42,13 +42,12 @@ public class ReturnProductController {
         p.setAvailable(true);
         productServices.save(p);
 
-        List<Borrow> list = borrowServices.getBorrowByProduct(returnProduct.getProduct());
-        for (Borrow b: list) {
-            b.setReturned(true);
-            borrowServices.save(b);
-        }
 
 
+
+        Borrow  b = borrowServices.BorrowReturnedIsFalse(returnProduct.getProduct());
+        b.setReturned(true);
+        borrowServices.save(b);
     }
 
     @GetMapping(path = "/{id}")

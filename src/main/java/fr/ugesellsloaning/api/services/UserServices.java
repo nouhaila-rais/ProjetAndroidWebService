@@ -1,12 +1,15 @@
 package fr.ugesellsloaning.api.services;
 
+import fr.ugesellsloaning.api.entities.RequestBorrow;
 import fr.ugesellsloaning.api.entities.User;
+import fr.ugesellsloaning.api.entities.WaitingList;
 import fr.ugesellsloaning.api.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Vector;
 
 @Service
 public class UserServices{
@@ -21,7 +24,7 @@ public class UserServices{
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(long id){
+    public User getUserById(long id){
         return userRepository.findById(id);
     }
 
@@ -40,10 +43,5 @@ public class UserServices{
     public void deleteById(Long id){
         userRepository.deleteById(id);
     }
-
-
-
-
-
 
 }

@@ -39,7 +39,7 @@ public class ProductServices {
         Iterable<Product> list = productRepostory.findAll();
         for (Product p:list) {
             p.setComments(commentServices.getCommentByProduct(p.getId()));
-            p.setBorrows(borrowServices.getBorrowByProduct(p.getId()));
+            p.setBorrows((Collection<Borrow>) borrowServices.getBorrowByProduct(p.getId()));
             p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
         }
         return list;
@@ -49,12 +49,20 @@ public class ProductServices {
 
         Product p = productRepostory.findById(id);
         p.setComments(commentServices.getCommentByProduct(p.getId()));
-        p.setBorrows(borrowServices.getBorrowByProduct(p.getId()));
+        p.setBorrows((Collection<Borrow>) borrowServices.getBorrowByProduct(p.getId()));
         p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
         return p;
     }
 
-    public List<Product> getProductByCategory(String category){ return productRepostory.findProductsByCategory(category);}
+    public List<Product> getProductByCategory(String category){
+        List<Product> list = productRepostory.findProductsByCategory(category);
+        for (Product p:list) {
+            p.setComments(commentServices.getCommentByProduct(p.getId()));
+            p.setBorrows((Collection<Borrow>) borrowServices.getBorrowByProduct(p.getId()));
+            p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
+        }
+        return list;
+    }
 
     public  List<Product> getProductByName(String name){ return productRepostory.findProductsByName(name);}
 
@@ -65,5 +73,7 @@ public class ProductServices {
     public void deleteById(Long id){
         productRepostory.deleteById(id);
     }
+
+
 
 }

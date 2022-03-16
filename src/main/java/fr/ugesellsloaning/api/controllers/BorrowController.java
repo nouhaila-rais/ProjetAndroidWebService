@@ -34,16 +34,29 @@ public class BorrowController {
     }
 
     @GetMapping(path = "/borrowByProduct/{id}")
-    public List<Borrow> listProduct(@PathVariable(value = "id")  long id){
-        return (List<Borrow>) borrowServices.getBorrowByProduct(id);
+    public Borrow listProduct(@PathVariable(value = "id")  long id){
+        List<Borrow> bb = borrowServices.getBorrowByProduct(id);
+        for (Borrow b: bb ) {
+            if (!b.isReturned()){
+                return b;
+            }
+
+        }
+        return null;
     }
 
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody  Borrow borrow){
-        String email = "kanghebalde@mail.com";
+        String email = "nouhailarais14@mail.com";
         User user = userServices.getUserByEmail(email);
         borrow.setUser(user);
+        //borrow
         borrowServices.save(borrow);
+
+        //update NbrOfTimesToBorrow
+        user.setNberOfTimesToBorrow(user.getNberOfTimesToBorrow() + 1);
+        userServices.save(user);
+
 
         Product p = productServices.getProductById(borrow.getProduct());
         p.setAvailable(false);

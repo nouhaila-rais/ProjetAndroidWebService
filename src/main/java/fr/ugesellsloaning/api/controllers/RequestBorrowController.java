@@ -29,9 +29,9 @@ public class RequestBorrowController {
 
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody RequestBorrow requestBorrow){
-        String email = "kanghebalde@mail.com";
+        String email = "kilomn@mail.com";
         User user = userServices.getUserByEmail(email);
-        requestBorrow.setUser(user);
+        requestBorrow.setUser(user.getId());
 
         requestBorrowServices.save(requestBorrow);
     }
@@ -39,6 +39,11 @@ public class RequestBorrowController {
     @GetMapping(path = "/{id}")
     public Optional<RequestBorrow> getById(@PathVariable(value = "id")  long id){
         return  requestBorrowServices.getRequestBorrowById(id);
+    }
+
+    @GetMapping(path = "product/{product}")
+    public List<RequestBorrow> getByProduct(@PathVariable(value = "product")  long product){
+        return  requestBorrowServices.getRequestBorrowByProduct(product);
     }
 
     @PutMapping(value = "/")

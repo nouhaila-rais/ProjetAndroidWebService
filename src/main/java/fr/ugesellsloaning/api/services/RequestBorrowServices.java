@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Vector;
 
 @Service
 public class RequestBorrowServices {
@@ -38,9 +39,27 @@ public class RequestBorrowServices {
         return requestBorrowRepository.findRequestBorrowByProduct(product);
     }
 
+    public List<RequestBorrow> getRequestBorrowByUser(long user){
+        return requestBorrowRepository.findRequestBorrowByuser(user);
+    }
 
+    public RequestBorrow getResquestBorrowByProductAndUser(long product, long user){
 
+        List<RequestBorrow> list = getRequestBorrowByUser(user);
 
+        for (RequestBorrow requestBorrow : list) {
+            if( requestBorrow.getProduct() ==product && !requestBorrow.isStatus())
+                return requestBorrow;
+        }
+        return null;
+    }
 
-
+    public List<RequestBorrow>  getRequestBorrowNoTTraitedByidProduit(long product) {
+        List<RequestBorrow> list = getRequestBorrowByProduct(product);
+        Vector<RequestBorrow> res = new Vector<RequestBorrow>();
+        for (RequestBorrow requestBorrow : list) {
+            if(!requestBorrow.isStatus()) res.add(requestBorrow);
+        }
+        return res;
+    }
 }

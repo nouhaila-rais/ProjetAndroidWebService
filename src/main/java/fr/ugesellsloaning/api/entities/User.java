@@ -16,12 +16,13 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Entity
@@ -29,6 +30,14 @@ import java.util.Collection;
 //@ApiModel("User")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User implements Serializable {
+
+    public User(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        java.util.Date d = new java.util.Date();
+        updatedAt = dateFormat.format(d).toString();
+        NberOfTimesToBorrow = 0;
+
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     //@ApiModelProperty(hidden = true)
@@ -67,15 +76,29 @@ public class User implements Serializable {
 
     @LastModifiedDate
     @JsonIgnore
-    private Date updatedAt;
+    String updatedAt;
 
     @LastModifiedBy
     @JsonIgnore
-    private String updatedBy;
+    String updatedBy;
+
+
+    long NberOfTimesToBorrow;
+
+
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JsonBackReference(value = "user-product")
+    Collection<Product> products;
+
+
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JsonBackReference(value = "user-comment")
     Collection<Comment> comments;
+
+
+
 
     @OneToOne(mappedBy = "user",cascade = {CascadeType.ALL}, optional = true, fetch = FetchType.LAZY)
     @JoinColumn(nullable = true)
@@ -90,7 +113,7 @@ public class User implements Serializable {
     @JsonBackReference(value = "user-borrows")
     Collection<Borrow> borrows;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JsonBackReference(value = "user-request")
     Collection<RequestBorrow> requestBorrows;
 }

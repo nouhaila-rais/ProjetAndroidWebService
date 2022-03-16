@@ -49,7 +49,7 @@ public class CommentController {
         //newMany.setOne(one); // Set the pa
 
         //Product product = productServices(comment.getProduct())
-        String email = "kanghebalde@mail.com";
+        String email = "nouhailarais14@mail.com";
         User user = userServices.getUserByEmail(email);
         comment.setUser(user);
 

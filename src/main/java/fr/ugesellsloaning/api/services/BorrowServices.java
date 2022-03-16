@@ -32,7 +32,9 @@ public class BorrowServices {
         for (Borrow b:list) {
             List<ReturnProduct> r = returnProductServices.getReturnProductByProduct(b.getProduct());
             for (ReturnProduct t: r) {
-                b.setReturnProduct(t);
+                if(b.isReturned()){
+                    b.setReturnProduct(t);
+                }
             }
         }
         return list;
@@ -53,5 +55,11 @@ public class BorrowServices {
 
     public List<Borrow> getBorrowByProduct(long product){
         return borrowRepostory.findBorrowByProduct(product); }
+
+    public Borrow BorrowReturnedIsFalse(long product){
+        return borrowRepostory.borrowIsFalse(product);
+    }
 }
+
+
 
