@@ -1,16 +1,9 @@
 package fr.ugesellsloaning.api.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import javax.persistence.*;
-import fr.ugesellsloaning.api.entities.User;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.text.DateFormat;

@@ -94,7 +94,7 @@ public class User implements Serializable {
         return notifications.size();
     }
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     //@JsonBackReference(value = "user-product")
     Collection<Product> products;
 

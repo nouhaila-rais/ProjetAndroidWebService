@@ -58,7 +58,7 @@ public class ProductController {
         //product.setImage(fileName);
         String email = "nouhailarais14@mail.com";
         User user = userServices.getUserByEmail(email);
-        product.setUser(user);
+        product.setUser(user.getId());
         productServices.save(product);
 
     }

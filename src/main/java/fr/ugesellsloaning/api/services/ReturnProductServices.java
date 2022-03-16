@@ -1,6 +1,5 @@
 package fr.ugesellsloaning.api.services;
 
-import fr.ugesellsloaning.api.entities.RequestBorrow;
 import fr.ugesellsloaning.api.entities.ReturnProduct;
 import fr.ugesellsloaning.api.repositories.IReturnProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

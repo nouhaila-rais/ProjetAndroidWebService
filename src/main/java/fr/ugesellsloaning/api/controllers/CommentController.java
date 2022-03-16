@@ -1,7 +1,6 @@
 package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.entities.Comment;
-import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.services.CommentServices;
 import fr.ugesellsloaning.api.services.ProductServices;

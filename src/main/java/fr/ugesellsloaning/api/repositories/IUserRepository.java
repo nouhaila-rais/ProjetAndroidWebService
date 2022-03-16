@@ -1,8 +1,6 @@
 package fr.ugesellsloaning.api.repositories;
 
-import fr.ugesellsloaning.api.entities.RequestBorrow;
 import fr.ugesellsloaning.api.entities.User;
-import fr.ugesellsloaning.api.entities.WaitingList;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

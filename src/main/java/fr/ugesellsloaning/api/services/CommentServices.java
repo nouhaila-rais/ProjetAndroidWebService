@@ -1,7 +1,6 @@
 package fr.ugesellsloaning.api.services;
 
 import fr.ugesellsloaning.api.entities.Comment;
-import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.repositories.ICommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,13 +1,11 @@
 package fr.ugesellsloaning.api.services;
 
-import fr.ugesellsloaning.api.entities.Borrow;
 import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.repositories.IProductRepository;
 import fr.ugesellsloaning.api.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
@@ -37,11 +35,13 @@ public class ProductServices {
     public Iterable<Product> listProduct(){
 
         Iterable<Product> list = productRepostory.findAll();
-        for (Product p:list) {
+
+        for (Product p : list) {
             p.setComments(commentServices.getCommentByProduct(p.getId()));
             p.setBorrows(borrowServices.getBorrowByProduct(p.getId()));
             p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
         }
+
         return list;
     }
 
@@ -50,7 +50,7 @@ public class ProductServices {
         Product p = productRepostory.findById(id);
         if(p!=null){
             p.setComments(commentServices.getCommentByProduct(p.getId()));
-            p.setBorrows((Collection<Borrow>) borrowServices.getBorrowByProduct(p.getId()));
+            p.setBorrows(borrowServices.getBorrowByProduct(p.getId()));
             p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
         }
         return p;
@@ -61,7 +61,7 @@ public class ProductServices {
         if(list!=null) {
             for (Product p : list) {
                 p.setComments(commentServices.getCommentByProduct(p.getId()));
-                p.setBorrows((Collection<Borrow>) borrowServices.getBorrowByProduct(p.getId()));
+                p.setBorrows( borrowServices.getBorrowByProduct(p.getId()));
                 p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
             }
         }
@@ -81,6 +81,14 @@ public class ProductServices {
         return list;
     }
 
+
+/*
+    public List<Product> getProductOfCurrentUser(String username){
+        return productRepostory.findAllForCurrentUser(username);
+    }
+*/
+
+
     public void delete(Product product){
         productRepostory.delete(product);
     }
@@ -88,6 +96,7 @@ public class ProductServices {
     public void deleteById(Long id){
         productRepostory.deleteById(id);
     }
+
 
     public List<Product> getProductsByKeyWord(String key){
         Iterable<Product> list= listProduct();
@@ -98,4 +107,17 @@ public class ProductServices {
         }
         return res;
     }
+
+    public List<Product> getProductByUser(long user){
+        List<Product> list = productRepostory.findProductsByUser(user);
+        if(list!=null){
+            for (Product p : list) {
+                p.setComments(commentServices.getCommentByProduct(p.getId()));
+                p.setBorrows((borrowServices.getBorrowByProduct(p.getId())));
+                p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
+            }
+        }
+        return list;
+    }
+
 }
