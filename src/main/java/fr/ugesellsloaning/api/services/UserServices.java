@@ -28,6 +28,9 @@ public class UserServices{
     @Autowired
     ProductServices productServices;
 
+    @Autowired
+    CartServices cartServices;
+
     public void save(User user){
         userRepository.save(user);
     }
@@ -66,6 +69,7 @@ public class UserServices{
             user.setBorrows(borrowServices.borrowByUser(user.getId()));
             user.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(user.getId()));
             user.setProducts(productServices.getProductByUser(user.getId()));
+            user.setTotalCart(cartServices.getProductInCart(user.getId()).size());
         }
         return user;
     }
@@ -77,6 +81,7 @@ public class UserServices{
                 u.setBorrows(borrowServices.borrowByUser(u.getId()));
                 u.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(u.getId()));
                 u.setProducts(productServices.getProductByUser(u.getId()));
+                u.setTotalCart(cartServices.getProductInCart(u.getId()).size());
             }
         }
         return userList;

@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.List;
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
 @Getter
@@ -82,7 +83,9 @@ public class User implements Serializable {
     @JsonIgnore
     String updatedBy;
 
+
     long NberOfTimesToBorrow;
+
 
     @JsonRawValue
     public int totalBorrow(){
@@ -90,9 +93,13 @@ public class User implements Serializable {
     }
 
     @JsonRawValue
+    int totalCart;
+
+    @JsonRawValue
     public int totalNotification(){
         int total=0;
         for (Notification n: notifications) {
+
             //Notification Not Read
             if(!n.isReadNotification()) total++;
 
@@ -100,17 +107,20 @@ public class User implements Serializable {
         return total;
     }
 
+
+
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     //@JsonBackReference(value = "user-product")
     Collection<Product> products;
+
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JsonBackReference(value = "user-comment")
     Collection<Comment> comments;
 
-    @OneToOne(mappedBy = "user",cascade = {CascadeType.ALL}, optional = true, fetch = FetchType.LAZY)
+
+    @OneToOne(cascade = {CascadeType.ALL}, optional = true, fetch = FetchType.LAZY)
     @JoinColumn(nullable = true)
-    @JsonBackReference(value = "user-account")
     Account account;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
@@ -124,4 +134,5 @@ public class User implements Serializable {
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JsonBackReference(value = "user-request")
     Collection<RequestBorrow> requestBorrows;
+
 }

@@ -6,6 +6,10 @@ import fr.ugesellsloaning.api.repositories.IAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Service
 public class AccountServices {
     @Autowired
@@ -32,9 +36,44 @@ public class AccountServices {
         accountRepostory.deleteById(id);
     }
 
+    public double getSolde(long user){
+        return accountRepostory.findAccountByUser(user).getSolde();
 
+    }
 
+    public Account getAccountByUser(long user){
+        return accountRepostory.findAccountByUser(user);
+    }
 
+    public boolean sufficientbalance(long user ,double amount){
+        double balance = getSolde(user);
+        if(amount<=balance) return true;
+        return false;
+    }
 
+    public boolean confirmPurchase(long user,double amount){
+        if (sufficientbalance(user, amount)) {
+            Account account = getAccountByUser(user);
+            account.setSolde(account.getSolde() - amount);
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date d = new Date();
+            account.setEditedAt(dateFormat.format(d).toString());
+            save(account);
+            return true;
+        }
+        return false;
+    }
+
+    public void creditAccount(long user,double amount){
+        Account account = getAccountByUser(user);
+        account.setSolde(account.getSolde() + amount);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = new Date();
+        account.setEditedAt(dateFormat.format(d).toString());
+
+        save(account);
+    }
 
 }

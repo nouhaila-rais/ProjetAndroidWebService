@@ -1,29 +1,28 @@
 package fr.ugesellsloaning.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Entity
-public class Account implements Serializable {
+public class Wishlist {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
 
-    @NotBlank(message = "Balance cannot be null")
-    double solde;
-
-    String editedAt;
-
     long user;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    List<Product> products;
 }
