@@ -27,8 +27,17 @@ public class NotificationController {
         notificationServices.save(notification);
     }
 
+    @GetMapping(path = "/updateNotification/{id}")
+    public void updateNotification(@PathVariable(value = "id")  long id){
+        Notification notification = notificationServices.getNotificationById(id);
+        if(notification != null){
+            notification.setReadNotification(true);
+            notificationServices.save(notification);
+        }
+    }
+
     @GetMapping(path = "/{id}")
-    public Optional<Notification> getById(@PathVariable(value = "id")  long id){ return  notificationServices.getNotificationById(id); }
+    public Notification getById(@PathVariable(value = "id")  long id){ return  notificationServices.getNotificationById(id); }
 
     @PutMapping(value = "/")
     public void edit(@Valid @RequestBody Notification notification){

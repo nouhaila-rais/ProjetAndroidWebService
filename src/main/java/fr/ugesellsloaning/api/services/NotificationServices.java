@@ -23,15 +23,21 @@ public class NotificationServices {
     UserServices userServices;
 
     public void save(Notification notification){
+
         notificationRepository.save(notification);
     }
 
     public Iterable<Notification> listNotification(){
+
         return notificationRepository.findAll();
     }
 
-    public Optional<Notification> getNotificationById(long id){
-        return notificationRepository.findById(id);
+    public Notification getNotificationById(long id){
+        Notification notification = notificationRepository.findById(id);
+        if(notification != null){
+            return notification;
+        }
+        return null;
     }
 
     public void delete(Notification notification){
