@@ -2,6 +2,7 @@ package fr.ugesellsloaning.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -15,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -24,7 +26,7 @@ import java.util.Date;
 @ToString
 @Entity
 public class Product implements Serializable {
-    public Product() {
+    public  Product(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date d = new Date();
         createdAt = dateFormat.format(d).toString();
@@ -63,21 +65,10 @@ public class Product implements Serializable {
     @Column(length = 500)
     String path;
 
-    /*
-    @OneToOne
-    Media image;
-
-     */
-
     long user;
-    //@ManyToOne(optional = true, fetch = FetchType.EAGER)
-    //@JoinColumn(nullable = true)
-    //@JsonBackReference(value = "user")
-
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
-    // @JsonBackReference(value = "comments")
-    Collection<Comment> comments;
+            Collection<Comment> comments;
 
 
     @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
@@ -89,7 +80,31 @@ public class Product implements Serializable {
     Collection<RequestBorrow> requestBorrows;
 
     @JsonRawValue
-    public int totalComment() {
+    public int totalComment(){
         return comments.size();
     }
+
+    @JsonRawValue
+    public int avgRate(){
+        if( comments.size()>0){
+            // Double rate = comments.stream().mapToDouble(Comment::getRate).average().getAsDouble();
+            return ConvertRate(comments.stream().mapToDouble(Comment::getRate).average().getAsDouble());
+        }else{
+            return 0;
+        }
+    }
+
+    int ConvertRate(double rate) {
+        double rate10 = rate*10;
+        int rate2 =(int)rate;
+        int intRate = rate2*10;
+
+        int intRate10 = (int)rate10;
+        int diff = intRate10 - intRate;
+
+        if(diff==5) return intRate10;
+        else if(diff<5) return intRate;
+        else return intRate+5;
+    }
+
 }

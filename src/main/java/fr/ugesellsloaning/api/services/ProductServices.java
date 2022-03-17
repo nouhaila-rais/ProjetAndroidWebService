@@ -58,36 +58,18 @@ public class ProductServices {
 
     public List<Product> getProductByCategory(String category){
         List<Product> list = productRepostory.findProductsByCategory(category);
-        if(list!=null) {
-            for (Product p : list) {
-                p.setComments(commentServices.getCommentByProduct(p.getId()));
-                p.setBorrows( borrowServices.getBorrowByProduct(p.getId()));
-                p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
-            }
-        }
-        return list;
+        return getProducts(list);
+    }
+
+    public List<Product> getProductByType(String type){
+        List<Product> list = productRepostory.findProductsByType(type);
+        return getProducts(list);
     }
 
     public  List<Product> getProductByName(String name){
         List<Product> list = productRepostory.findProductsByName(name);
-        if(list!=null){
-            for (Product p:list) {
-                p.setComments(commentServices.getCommentByProduct(p.getId()));
-                p.setBorrows((borrowServices.getBorrowByProduct(p.getId())));
-                p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
-            }
-        }
-
-        return list;
+        return getProducts(list);
     }
-
-
-/*
-    public List<Product> getProductOfCurrentUser(String username){
-        return productRepostory.findAllForCurrentUser(username);
-    }
-*/
-
 
     public void delete(Product product){
         productRepostory.delete(product);
@@ -102,7 +84,7 @@ public class ProductServices {
         Iterable<Product> list= listProduct();
         Vector<Product> res =new Vector<Product>();
         for (Product product : list) {
-            if (product.getName().toLowerCase().contains(key) || product.getCategory().toLowerCase().contains(key) || product.getType().toLowerCase().contains(key))
+            if (product.getName().toLowerCase().contains(key.toLowerCase()) || product.getCategory().toLowerCase().contains(key.toLowerCase()) || product.getType().toLowerCase().contains(key.toLowerCase()))
                 res.add(product);
         }
         return res;
@@ -110,14 +92,18 @@ public class ProductServices {
 
     public List<Product> getProductByUser(long user){
         List<Product> list = productRepostory.findProductsByUser(user);
-        if(list!=null){
+        return getProducts(list);
+    }
+
+    private List<Product> getProducts(List<Product> list) {
+        if(list!=null) {
             for (Product p : list) {
                 p.setComments(commentServices.getCommentByProduct(p.getId()));
-                p.setBorrows((borrowServices.getBorrowByProduct(p.getId())));
+                p.setBorrows( borrowServices.getBorrowByProduct(p.getId()));
                 p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
             }
         }
         return list;
     }
-
 }
+

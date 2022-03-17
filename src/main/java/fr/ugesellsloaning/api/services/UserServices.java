@@ -34,54 +34,22 @@ public class UserServices{
 
     public Iterable<User> listUser(){
         Iterable<User> listUser = userRepository.findAll();
-        for (User u : listUser) {
-            u.setComments(commentServices.getCommentByUser(u.getId()));
-            u.setNotifications(notificationServices.getNotificationByUser(u.getId()));
-            u.setBorrows(borrowServices.borrowByUser(u.getId()));
-            u.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(u.getId()));
-            u.setProducts(productServices.getProductByUser(u.getId()));
-        }
-
-        return listUser;
+        return  getUsers((List<User>) listUser);
     }
 
     public User getUserById(long id){
-
-        User u = userRepository.findById(id);
-        if(u!=null){
-            u.setComments(commentServices.getCommentByUser(u.getId()));
-            u.setNotifications(notificationServices.getNotificationByUser(u.getId()));
-            u.setBorrows(borrowServices.borrowByUser(u.getId()));
-            u.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(u.getId()));
-            u.setProducts(productServices.getProductByUser(u.getId()));
-        }
-        return u;
+        User user= userRepository.findById(id);
+        return getUser(user);
     }
 
     public List<User> getUserByLogin(String login) {
-        List<User> listUser = userRepository.findAllByLogin(login);
-        if(listUser!=null){
-            for (User u : listUser) {
-                u.setComments(commentServices.getCommentByUser(u.getId()));
-                u.setNotifications(notificationServices.getNotificationByUser(u.getId()));
-                u.setBorrows(borrowServices.borrowByUser(u.getId()));
-                u.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(u.getId()));
-                u.setProducts(productServices.getProductByUser(u.getId()));
-            }
-        }
-        return listUser;
+        List<User> listUsers = userRepository.findAllByLogin(login);
+        return getUsers(listUsers);
     }
 
     public User getUserByEmail(String email){
-        User u = userRepository.findByEmail(email);
-        if(u!=null) {
-            u.setComments(commentServices.getCommentByUser(u.getId()));
-            u.setNotifications(notificationServices.getNotificationByUser(u.getId()));
-            u.setBorrows(borrowServices.borrowByUser(u.getId()));
-            u.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(u.getId()));
-            u.setProducts(productServices.getProductByUser(u.getId()));
-        }
-        return u;
+        User user = userRepository.findByEmail(email);
+        return getUser(user);
     }
 
     public void delete(User user){
@@ -91,7 +59,27 @@ public class UserServices{
     public void deleteById(Long id){
         userRepository.deleteById(id);
     }
-
-
+    private User getUser(User user){
+        if(user!=null) {
+            user.setComments(commentServices.getCommentByUser(user.getId()));
+            user.setNotifications(notificationServices.getNotificationByUser(user.getId()));
+            user.setBorrows(borrowServices.borrowByUser(user.getId()));
+            user.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(user.getId()));
+            user.setProducts(productServices.getProductByUser(user.getId()));
+        }
+        return user;
+    }
+    private List<User> getUsers(List<User> userList){
+        if(userList !=null) {
+            for (User u : userList) {
+                u.setComments(commentServices.getCommentByUser(u.getId()));
+                u.setNotifications(notificationServices.getNotificationByUser(u.getId()));
+                u.setBorrows(borrowServices.borrowByUser(u.getId()));
+                u.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(u.getId()));
+                u.setProducts(productServices.getProductByUser(u.getId()));
+            }
+        }
+        return userList;
+    }
 
 }

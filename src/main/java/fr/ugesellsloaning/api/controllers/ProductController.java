@@ -74,11 +74,16 @@ public class ProductController {
     public List<Product> getByName(@PathVariable(value = "name")  String name){ return  productServices.getProductByName(name); }
 
     @GetMapping(path = "/key/{key}")
-    public List<Product> getByKey(@PathVariable(value = "key")  String key){ return  productServices.getProductsByKeyWord(key); }
+    public List<Product> getByKey(@PathVariable(value = "key")  String key){
+        return  productServices.getProductsByKeyWord(key.replace("%", " "));
+    }
 
 
     @GetMapping(path = "/category/{category}")
     public List<Product> getByCategory(@PathVariable(value = "category")  String category){ return  productServices.getProductByCategory(category); }
+
+    @GetMapping(path = "/type/{type}")
+    public List<Product> getByType(@PathVariable(value = "type")  String type){ return  productServices.getProductByType(type); }
 
     @PutMapping(value = "/")
     //@PreAuthorize("hasAuthority('ADMIN') || (returnObject != null && returnObject.getUser().getEmail() == authentication.principal)")
