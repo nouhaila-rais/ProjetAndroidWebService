@@ -93,5 +93,23 @@ public class CartController {
         return cartServices.getProductInCart(user.getId()).size();
     }
 
+    @PostMapping(path = "/buy/")
+    public boolean buyCart(@RequestBody  double amount){
+        String email = "kanghebalde1@gmail.com";
+        User user = userServices.getUserByEmail(email);
+        return cartServices.confirmPurchase(user.getId(), amount);
+    }
+
+    @GetMapping(path = "/buy/{user}")
+    public boolean buyCart(@PathVariable(value = "user")  long user){
+        Double amount = 0.0;
+        String email = "kanghebalde1@gmail.com";
+        User user1 = userServices.getUserById(user);
+        List<Product> productList = cartServices.getProductInCart(user);
+        for (Product product : productList){
+            amount=amount + product.getPrice();
+        }
+        return cartServices.confirmPurchase(user, amount);
+    }
 
 }

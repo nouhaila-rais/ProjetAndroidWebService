@@ -1,11 +1,15 @@
 package fr.ugesellsloaning.api.services;
 
+import fr.ugesellsloaning.api.entities.Account;
 import fr.ugesellsloaning.api.entities.Cart;
 import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.repositories.ICartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
@@ -18,6 +22,9 @@ public class CartServices {
 
     @Autowired
     ProductServices productServices;
+
+    @Autowired
+    AccountServices accountServices;
 
     public void save(Cart cart){
         iCartRepository.save(cart);
@@ -62,5 +69,20 @@ public class CartServices {
         }
         return  products;
     }
+
+    public boolean confirmPurchase(long user,double amount){
+        if (accountServices.sufficientbalance(user, amount)) {
+            Account account = accountServices.getAccountByUser(user);
+            account.setSolde(account.getSolde() - amount);
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date d = new Date();
+            account.setEditedAt(dateFormat.format(d).toString());
+            accountServices.save(account);
+            return true;
+        }
+        return false;
+    }
 }
+
 

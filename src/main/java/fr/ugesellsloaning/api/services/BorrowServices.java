@@ -55,6 +55,13 @@ public class BorrowServices {
         borrowRepostory.deleteById(id);
     }
 
+    public void deleteByProduct(long product){
+        List<Borrow> borrows = getBorrowByProduct(product);
+        for (Borrow borrow: borrows) {
+            deleteById(borrow.getId());
+        }
+    }
+
     public List<Borrow> getBorrowByProduct(long product){
         return borrowRepostory.findBorrowByProduct(product);
     }

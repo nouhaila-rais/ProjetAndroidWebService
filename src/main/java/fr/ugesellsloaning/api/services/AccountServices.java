@@ -51,20 +51,6 @@ public class AccountServices {
         return false;
     }
 
-    public boolean confirmPurchase(long user,double amount){
-        if (sufficientbalance(user, amount)) {
-            Account account = getAccountByUser(user);
-            account.setSolde(account.getSolde() - amount);
-
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date d = new Date();
-            account.setEditedAt(dateFormat.format(d).toString());
-            save(account);
-            return true;
-        }
-        return false;
-    }
-
     public void creditAccount(long user,double amount){
         Account account = getAccountByUser(user);
         account.setSolde(account.getSolde() + amount);
@@ -72,7 +58,6 @@ public class AccountServices {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date d = new Date();
         account.setEditedAt(dateFormat.format(d).toString());
-
         save(account);
     }
 

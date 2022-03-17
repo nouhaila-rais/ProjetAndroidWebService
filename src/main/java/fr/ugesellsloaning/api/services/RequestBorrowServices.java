@@ -33,6 +33,13 @@ public class RequestBorrowServices {
         requestBorrowRepository.deleteById(id);
     }
 
+    public void deleteByProduct(Long product){
+        List<RequestBorrow> requestBorrows = getRequestBorrowByProduct(product);
+        for (RequestBorrow requestBorrow: requestBorrows) {
+            deleteById(requestBorrow.getId());
+        }
+    }
+
     public List<RequestBorrow> getRequestBorrowByProduct(long product){
         return requestBorrowRepository.findRequestBorrowByProduct(product);
     }

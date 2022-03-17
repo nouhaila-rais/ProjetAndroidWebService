@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,8 @@ public class CommentController {
     @Autowired
     CommentServices commentServices;
 
+    @Autowired
+    HttpServletRequest request;
 
     @Autowired
     ProductServices productServices;

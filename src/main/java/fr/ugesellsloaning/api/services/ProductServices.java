@@ -2,7 +2,6 @@ package fr.ugesellsloaning.api.services;
 
 import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.repositories.IProductRepository;
-import fr.ugesellsloaning.api.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +14,6 @@ public class ProductServices {
     IProductRepository productRepostory;
 
     @Autowired
-    IUserRepository userRepostory;
-
-    @Autowired
     CommentServices commentServices;
 
     @Autowired
@@ -26,7 +22,6 @@ public class ProductServices {
     @Autowired
     RequestBorrowServices requestBorrowServices;
 
-    //SecurityUtils securityUtils = new SecurityUtils();
 
     public void save(Product product){
         productRepostory.save(product);
@@ -35,7 +30,6 @@ public class ProductServices {
     public Iterable<Product> listProduct(){
 
         Iterable<Product> list = productRepostory.findAll();
-
         for (Product p : list) {
             p.setComments(commentServices.getCommentByProduct(p.getId()));
             p.setBorrows(borrowServices.getBorrowByProduct(p.getId()));
@@ -47,13 +41,13 @@ public class ProductServices {
 
     public Product getProductById(long id){
 
-        Product p = productRepostory.findById(id);
-        if(p!=null){
-            p.setComments(commentServices.getCommentByProduct(p.getId()));
-            p.setBorrows(borrowServices.getBorrowByProduct(p.getId()));
-            p.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(p.getId()));
+        Product product = productRepostory.findById(id);
+        if(product!=null){
+            product.setComments(commentServices.getCommentByProduct(product.getId()));
+            product.setBorrows(borrowServices.getBorrowByProduct(product.getId()));
+            product.setRequestBorrows(requestBorrowServices.getRequestBorrowByProduct(product.getId()));
         }
-        return p;
+        return product;
     }
 
     public List<Product> getProductByCategory(String category){
@@ -61,10 +55,13 @@ public class ProductServices {
         return getProducts(list);
     }
 
+
+
     public List<Product> getProductByType(String type){
         List<Product> list = productRepostory.findProductsByType(type);
         return getProducts(list);
     }
+
 
     public  List<Product> getProductByName(String name){
         List<Product> list = productRepostory.findProductsByName(name);
@@ -95,6 +92,7 @@ public class ProductServices {
         return getProducts(list);
     }
 
+    //Get Products
     private List<Product> getProducts(List<Product> list) {
         if(list!=null) {
             for (Product p : list) {
@@ -105,5 +103,5 @@ public class ProductServices {
         }
         return list;
     }
-}
 
+}

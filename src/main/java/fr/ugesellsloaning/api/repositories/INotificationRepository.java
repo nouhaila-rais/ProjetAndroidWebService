@@ -8,5 +8,6 @@ import java.util.List;
 public interface INotificationRepository extends CrudRepository<Notification, Long> {
     List<Notification> findNotificationByUser(long user);
     Notification findById(long id);
+    List<Notification> findNotificationByProduct(long product);
 
 }

@@ -1,7 +1,9 @@
 package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.entities.Account;
+import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.services.AccountServices;
+import fr.ugesellsloaning.api.services.UserServices;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +20,21 @@ public class AccountController {
     @Autowired
     AccountServices accountServices;
 
+    @Autowired
+    UserServices userServices;
+
     @ApiOperation(value = "Récupère tous les comptes")
     @GetMapping(path = "/")
     public List<Account> list(){
         return (List<Account>) accountServices.listAccount();
     }
 
-    @ApiOperation(value = "ajout d'un compte")
-    @PostMapping(path = "/")
-    public void add(@Valid @RequestBody Account account){
-        accountServices.save(account);
+    @ApiOperation(value = "Crediter Mon compte")
+    @PostMapping(path = "/credit/")
+    public void add( @RequestBody Account account){
+        String email = "kanghebalde1@gmail.com";
+        User user = userServices.getUserByEmail(email);
+        accountServices.creditAccount(user.getId(), account.getSolde());
     }
 
     @ApiOperation(value = "Récupèration d'un compte")

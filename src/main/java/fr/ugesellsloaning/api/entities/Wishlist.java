@@ -22,7 +22,6 @@ public class Wishlist {
 
     long user;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    List<Product> products;
+    long product;
+
 }
