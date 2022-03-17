@@ -91,7 +91,13 @@ public class User implements Serializable {
 
     @JsonRawValue
     public int totalNotification(){
-        return notifications.size();
+        int total=0;
+        for (Notification n: notifications) {
+            //Notification Not Read
+            if(!n.isReadNotification()) total++;
+
+        }
+        return total;
     }
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)

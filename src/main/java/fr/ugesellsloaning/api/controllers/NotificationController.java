@@ -1,8 +1,12 @@
 package fr.ugesellsloaning.api.controllers;
 
 import fr.ugesellsloaning.api.entities.Notification;
+import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.services.NotificationServices;
+import fr.ugesellsloaning.api.services.UserServices;
 import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,26 +18,40 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/notification")
 public class NotificationController {
+    private Logger log = LoggerFactory.getLogger(NotificationController.class);
+
     @Autowired
     NotificationServices notificationServices;
 
+    @Autowired
+    UserServices userServices;
+
     @GetMapping(path = "/")
-    public List<Notification> list(){
+    public List<Notification> list() {
         return (List<Notification>) notificationServices.listNotification();
     }
 
     @PostMapping(path = "/")
-    public void add(@Valid @RequestBody Notification notification){
+    public void add(@Valid @RequestBody Notification notification) {
         notificationServices.save(notification);
     }
 
     @GetMapping(path = "/updateNotification/{id}")
-    public void updateNotification(@PathVariable(value = "id")  long id){
+    public int updateNotification(@PathVariable(value = "id") long id) {
+        //Current user
+        String email = "nouhailarais14@gmail.com";
+        User user = userServices.getUserByEmail(email);
+
+
+        //update Nofication Read
         Notification notification = notificationServices.getNotificationById(id);
-        if(notification != null){
+        if (notification != null) {
             notification.setReadNotification(true);
             notificationServices.save(notification);
+        } else {
+            log.info("Notification Already Read or ID Not Exist");
         }
+        return user.totalNotification();
     }
 
     @GetMapping(path = "/{id}")
