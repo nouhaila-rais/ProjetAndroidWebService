@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -29,7 +30,10 @@ public class ProductController {
     @Autowired
     HttpServletRequest request;
 
-    private Product p;
+    //private Product p;
+
+    private Principal principal;
+    private String email;
 
     private  Logger log = LoggerFactory.getLogger(ProductController.class);
 
@@ -40,10 +44,10 @@ public class ProductController {
 
     }
 
-    @PostMapping(path = "/")
+    @PostMapping(path = "/secured/")
     public void add(@Valid @RequestBody Product product){
-        String username = request.getUserPrincipal().getName();
-        log.info("Add product by "+username);
+        //String username = request.getUserPrincipal().getName();
+        //log.info("Add product by "+username);
         //User user = userServices.getUserByEmail(username);
         //product.setUser(user);
         //product.setImage(fileName);
@@ -79,10 +83,14 @@ public class ProductController {
     @PutMapping(value = "/")
     //@PreAuthorize("hasAuthority('ADMIN') || (returnObject != null && returnObject.getUser().getEmail() == authentication.principal)")
     public void edit(@Valid @RequestBody Product product) throws Exception {
-        String username = request.getUserPrincipal().getName();
-        log.info("Edit product by "+username);
-        User user = userServices.getUserByEmail(username);
+        String email = "kanghebalde1@gmail.com";
+        User user = userServices.getUserByEmail(email);
 
+        if(product.getUser() == user.getId()){
+            productServices.save(product);
+        }else{
+            throw new Exception("Erreur vous devez etre admin ou proprietaire");
+        }
     }
 
     @DeleteMapping("/{id}")

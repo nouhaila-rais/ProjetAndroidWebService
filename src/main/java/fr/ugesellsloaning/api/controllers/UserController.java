@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class UserController {
 
     @Autowired
     HttpServletRequest request;
+
+    Principal principal;
 
     @GetMapping(path = "/user/")
     public List<User> list(){
@@ -70,7 +73,7 @@ public class UserController {
 
     @PutMapping(value = "/user/edit/")
     public void edit(@Valid @RequestBody User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         userServices.save(user);
     }
 

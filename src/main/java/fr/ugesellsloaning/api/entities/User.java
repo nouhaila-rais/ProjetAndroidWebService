@@ -21,6 +21,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
 @Getter
@@ -40,6 +41,23 @@ public class User implements Serializable {
         NberOfTimesToBorrow = 0;
 
     }
+
+    public User(User user) {
+        this.id = user.getId();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.login = user.getLogin();
+        this.email =user.getEmail();
+        this.phone = user.getPhone();
+        this.address = user.getAddress();
+        this.role = user.getRole();
+        this.updatedAt = user.getUpdatedAt();
+        this.updatedBy = user.getUpdatedBy();
+        this.NberOfTimesToBorrow = user.getNberOfTimesToBorrow();
+        this.roles = user.getRoles();
+        this.password = user.getPassword();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     //@ApiModelProperty(hidden = true)
@@ -137,5 +155,9 @@ public class User implements Serializable {
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JsonBackReference(value = "user-request")
     Collection<RequestBorrow> requestBorrows;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    Set<Role> roles;
 
 }
