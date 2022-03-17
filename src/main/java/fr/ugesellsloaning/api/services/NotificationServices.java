@@ -48,6 +48,13 @@ public class NotificationServices {
         notificationRepository.deleteById(id);
     }
 
+    public void deleteByProduct(Long product){
+        List<Notification> notifications = notificationRepository.findNotificationByProduct(product);
+        for (Notification notification: notifications) {
+            deleteById(notification.getId());
+        }
+    }
+
 
     public void SendMailNotificationUtilisateur(User user,String object, String message) {
         //User u = userServices.getUserById(u)

@@ -1,7 +1,9 @@
 package fr.ugesellsloaning.api.services;
 
 import fr.ugesellsloaning.api.entities.Product;
+import fr.ugesellsloaning.api.entities.WaitingList;
 import fr.ugesellsloaning.api.repositories.IProductRepository;
+import fr.ugesellsloaning.api.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,20 @@ public class ProductServices {
     @Autowired
     RequestBorrowServices requestBorrowServices;
 
+    @Autowired
+    NotificationServices notificationServices;
+
+    @Autowired
+    CartServices cartServices;
+
+    @Autowired
+    WishlistServices wishlistServices;
+
+    @Autowired
+    WaitingListServices waitingListServices;
+
+
+    //SecurityUtils securityUtils = new SecurityUtils();
 
     public void save(Product product){
         productRepostory.save(product);
@@ -68,12 +84,27 @@ public class ProductServices {
         return getProducts(list);
     }
 
+
+/*
+    public List<Product> getProductOfCurrentUser(String username){
+        return productRepostory.findAllForCurrentUser(username);
+    }
+*/
+
+
     public void delete(Product product){
         productRepostory.delete(product);
     }
 
     public void deleteById(Long id){
         productRepostory.deleteById(id);
+        commentServices.deleteByProduct(id);
+        notificationServices.deleteByProduct(id);
+        borrowServices.deleteByProduct(id);
+        requestBorrowServices.deleteByProduct(id);
+        cartServices.deleteByProduct(id);
+        wishlistServices.deleteByProduct(id);
+        waitingListServices.deleteByProduct(id);
     }
 
 

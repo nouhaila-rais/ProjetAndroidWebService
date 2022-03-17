@@ -96,6 +96,9 @@ public class User implements Serializable {
     int totalCart;
 
     @JsonRawValue
+    int totalWishlist;
+
+    @JsonRawValue
     public int totalNotification(){
         int total=0;
         for (Notification n: notifications) {

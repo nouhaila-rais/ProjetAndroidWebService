@@ -82,6 +82,10 @@ public class CartServices {
             Date d = new Date();
             account.setEditedAt(dateFormat.format(d).toString());
             accountServices.save(account);
+            List<Product> list = getProductInCart(user);
+            for (Product p: list) {
+                productServices.deleteById(p.getId());
+            }
             deleteByUser(user);
             return true;
         }

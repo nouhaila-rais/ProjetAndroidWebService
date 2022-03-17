@@ -1,6 +1,6 @@
 package fr.ugesellsloaning.api.services;
 
-
+import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,12 @@ public class UserServices{
     @Autowired
     ProductServices productServices;
 
+
     @Autowired
     CartServices cartServices;
+
+    @Autowired
+    WishlistServices wishlistServices;
 
     public void save(User user){
         userRepository.save(user);
@@ -60,8 +64,13 @@ public class UserServices{
     }
 
     public void deleteById(Long id){
+        List<Product> productLists = productServices.getProductByUser(id);
+        for (Product product: productLists) {
+            productServices.deleteById(product.getId());
+        }
         userRepository.deleteById(id);
     }
+
     private User getUser(User user){
         if(user!=null) {
             user.setComments(commentServices.getCommentByUser(user.getId()));
@@ -70,9 +79,12 @@ public class UserServices{
             user.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(user.getId()));
             user.setProducts(productServices.getProductByUser(user.getId()));
             user.setTotalCart(cartServices.getProductInCart(user.getId()).size());
+            user.setTotalWishlist(wishlistServices.getProductInWishlist(user.getId()).size());
+
         }
         return user;
     }
+
     private List<User> getUsers(List<User> userList){
         if(userList !=null) {
             for (User u : userList) {
@@ -82,9 +94,12 @@ public class UserServices{
                 u.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(u.getId()));
                 u.setProducts(productServices.getProductByUser(u.getId()));
                 u.setTotalCart(cartServices.getProductInCart(u.getId()).size());
+                u.setTotalWishlist(wishlistServices.getProductInWishlist(u.getId()).size());
             }
         }
         return userList;
     }
+
+
 
 }
