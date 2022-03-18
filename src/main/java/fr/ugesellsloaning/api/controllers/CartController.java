@@ -23,58 +23,60 @@ public class CartController {
     UserServices userServices;
 
     @Autowired
-    ProductServices  productServices;
+    ProductServices productServices;
 
     @GetMapping(path = "/")
-    public Iterable<Cart> list(){
+    public Iterable<Cart> list() {
         return cartServices.listCart();
     }
 
     @GetMapping(path = "/totalCart/")
-    public int getTotalCart(){
+    public int getTotalCart() {
         String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         return cartServices.getProductInCart(user.getId()).size();
     }
 
-    @GetMapping(path = "/{product}")
-    public int add(@PathVariable(value = "product")  long product ){
+    @GetMapping(path = "add/{product}")
+    public int add(@PathVariable(value = "product") long product) {
         //current Use
-        boolean exist=false;
+        boolean exist = false;
 
         String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
 
         Product product1 = productServices.getProductById(product);
-        if(product1 != null){
+        if (product1 != null) {
             Cart cart = new Cart();
             cart.setUser(user.getId());
             cart.setProduct(product);
 
             List<Cart> carts = cartServices.getCartByUser(user.getId());
-            for (Cart cart1: carts) {
-                if(cart1.getProduct() == cart.getProduct() && cart1.getUser() == cart.getUser()){
+            for (Cart cart1 : carts) {
+                if (cart1.getProduct() == cart.getProduct() && cart1.getUser() == cart.getUser()) {
                     exist = true;
                 }
             }
-            if(exist == false) cartServices.save(cart);
+            if (exist == false) cartServices.save(cart);
         }
         return cartServices.getProductInCart(user.getId()).size();
     }
 
     @GetMapping(path = "/id/{id}")
-    public Optional<Cart> getById(@PathVariable(value = "id")  long id){ return  cartServices.getCartById(id); }
+    public Optional<Cart> getById(@PathVariable(value = "id") long id) {
+        return cartServices.getCartById(id);
+    }
 
 
     @GetMapping(path = "/productInCart/")
-    public List<Product> getByUser(){
+    public List<Product> getByUser() {
         String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         return cartServices.getProductInCart(user.getId());
     }
 
     @DeleteMapping("/deleteAll/")
-    public int deleteCartByUser(){
+    public int deleteCartByUser() {
         String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         cartServices.deleteByUser(user.getId());
@@ -83,7 +85,7 @@ public class CartController {
     }
 
     @DeleteMapping("/product/{product}")
-    public int deleteCartByProduct(@PathVariable(value = "product")  long product){
+    public int deleteCartByProduct(@PathVariable(value = "product") long product) {
         String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
 
@@ -95,17 +97,20 @@ public class CartController {
     @GetMapping(path = "/buy/")
     public boolean buyCart(){
         Double amount = 0.0;
-        String email = "mounas2@gmail.com";
+        String email =  "fati2@gmail.com";
         User user = userServices.getUserByEmail(email);
         if(user != null){
             List<Product> productList = cartServices.getProductInCart(user.getId());
-            for (Product product : productList){
-                amount= amount + product.getPrice();
+            if (productList != null){
+                for (Product product : productList){
+                    amount= amount + product.getPrice();
+                }
+                return cartServices.confirmPurchase(user.getId(), amount);
             }
-            return cartServices.confirmPurchase(user.getId(), amount);
         }
         return false;
     }
+
 /*
     @GetMapping(path = "/buy/{user}")
     public boolean buyCart(@PathVariable(value = "user")  long user){
@@ -120,4 +125,5 @@ public class CartController {
     }
 
  */
+
 }

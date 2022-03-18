@@ -42,7 +42,7 @@ public class WishlistController {
         return wishlistServices.getProductInWishlist(user.getId()).size();
     }
 
-    @GetMapping(path  = "/{product}")
+    @GetMapping(path  = "add/{product}")
     public int add(@PathVariable(value = "product")  long product){
         //current Use
         boolean exist=false;
