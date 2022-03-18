@@ -37,21 +37,21 @@ public class CartController {
         return cartServices.getProductInCart(user.getId()).size();
     }
 
-    @GetMapping(path = "add/{product}")
-    public int add(@PathVariable(value = "product") long product) {
+    @GetMapping(path = "add/{product}/{user}")
+    public int add(@PathVariable(value = "product") long product, @PathVariable(value = "user")  long user) {
         //current Use
         boolean exist = false;
 
-        String email = "mounas2@gmail.com";
-        User user = userServices.getUserByEmail(email);
+        //String email = "mounas2@gmail.com";
+        User u = userServices.getUserById(user);
 
         Product product1 = productServices.getProductById(product);
         if (product1 != null) {
             Cart cart = new Cart();
-            cart.setUser(user.getId());
+            cart.setUser(u.getId());
             cart.setProduct(product);
 
-            List<Cart> carts = cartServices.getCartByUser(user.getId());
+            List<Cart> carts = cartServices.getCartByUser(u.getId());
             for (Cart cart1 : carts) {
                 if (cart1.getProduct() == cart.getProduct() && cart1.getUser() == cart.getUser()) {
                     exist = true;
@@ -59,7 +59,7 @@ public class CartController {
             }
             if (exist == false) cartServices.save(cart);
         }
-        return cartServices.getProductInCart(user.getId()).size();
+        return cartServices.getProductInCart(u.getId()).size();
     }
 
     @GetMapping(path = "/id/{id}")
@@ -68,20 +68,24 @@ public class CartController {
     }
 
 
-    @GetMapping(path = "/productInCart/")
-    public List<Product> getByUser() {
-        String email = "mounas2@gmail.com";
-        User user = userServices.getUserByEmail(email);
-        return cartServices.getProductInCart(user.getId());
+    @GetMapping(path = "/productInCart/{user}")
+    public List<Product> getByUser(@PathVariable(value = "user")  long user) {
+        //String email = "mounas2@gmail.com";
+        User u = userServices.getUserById(user);
+        if(u!=null){
+            return cartServices.getProductInCart(user);
+        }
+        return null;
     }
 
-    @DeleteMapping("/deleteAll/")
-    public int deleteCartByUser() {
-        String email = "mounas2@gmail.com";
-        User user = userServices.getUserByEmail(email);
-        cartServices.deleteByUser(user.getId());
+    @DeleteMapping("/deleteAll/{user}")
+    public int deleteCartByUser(@PathVariable(value = "user")  long user){
+        //String email = "mounas2@gmail.com";
+        User u = userServices.getUserById(user);
+        cartServices.deleteByUser(user);
 
-        return cartServices.getProductInCart(user.getId()).size();
+        return cartServices.getProductInCart(user).size();
+
     }
 
     @DeleteMapping("/product/{product}")
@@ -94,18 +98,18 @@ public class CartController {
         return cartServices.getProductInCart(user.getId()).size();
     }
 
-    @GetMapping(path = "/buy/")
-    public boolean buyCart(){
+    @GetMapping(path = "/buy/{user}")
+    public boolean buyCart(@PathVariable(value = "user")  long user){
         Double amount = 0.0;
-        String email =  "fati2@gmail.com";
-        User user = userServices.getUserByEmail(email);
-        if(user != null){
-            List<Product> productList = cartServices.getProductInCart(user.getId());
+        //String email =  "mounas2@gmail.com";
+        User u = userServices.getUserById(user);
+        if(u != null){
+            List<Product> productList = cartServices.getProductInCart(u.getId());
             if (productList != null){
                 for (Product product : productList){
                     amount= amount + product.getPrice();
                 }
-                return cartServices.confirmPurchase(user.getId(), amount);
+                return cartServices.confirmPurchase(u.getId(), amount);
             }
         }
         return false;

@@ -29,9 +29,9 @@ public class RequestBorrowController {
 
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody RequestBorrow requestBorrow){
-        String email = "kilomn@mail.com";
-        User user = userServices.getUserByEmail(email);
-        requestBorrow.setUser(user.getId());
+        //String email = "kilomn@mail.com";
+        //User user = userServices.getUserByEmail(email);
+        //requestBorrow.setUser(user.getId());
 
         requestBorrowServices.save(requestBorrow);
     }

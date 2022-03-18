@@ -39,7 +39,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     private static final String ADMIN = "ADMIN";
     private static final String USER = "USER";
-    private static final String DEFAULT_INCLUDE_PATTERN = "/secured/**";
+    private static final String DEFAULT_INCLUDE_PATTERN = "/api/**";
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -49,6 +49,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserServices userServices;
+
+    String login = "";
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -116,7 +118,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             Authentication authentication) throws IOException {
 
         response.setStatus(HttpStatus.OK.value());
-        String login = authentication.getName();
+        login = authentication.getName();
         User u = userServices.getUserByLogin(login);
         objectMapper.writeValue(response.getWriter(), u.getId() );
     }
@@ -129,6 +131,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         objectMapper.writeValue(response.getWriter(), -1);
+    }
+
+    public User currentUser(){
+        return userServices.getUserByLogin(login);
     }
 
 }

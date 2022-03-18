@@ -47,10 +47,11 @@ public class BorrowController {
 
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody  Borrow borrow){
-        String email = "nouhailarais14@mail.com";
-        User user = userServices.getUserByEmail(email);
-        borrow.setUser(user.getId());
+        //String email = "nouhailarais14@mail.com";
+        //User user = userServices.getUserByEmail(email);
+        //borrow.setUser(user.getId());
         //borrow
+        User user = userServices.getUserById(borrow.getUser());
         borrowServices.save(borrow);
 
         //update NbrOfTimesToBorrow

@@ -36,11 +36,12 @@ public class NotificationController {
         notificationServices.save(notification);
     }
 
-    @GetMapping(path = "/updateNotification/{id}")
-    public int updateNotification(@PathVariable(value = "id") long id) {
+    @GetMapping(path = "/updateNotification/{id}/{user}")
+    public int updateNotification(@PathVariable(value = "id")  long id,@PathVariable(value = "user")  long user){
         //Current user
-        String email = "nouhailarais14@gmail.com";
-        User user = userServices.getUserByEmail(email);
+        //String email = "nouhailarais14@gmail.com";
+        //User user = userServices.getUserByEmail(email);
+        User u = userServices.getUserById(user);
 
 
         //update Nofication Read
@@ -51,7 +52,7 @@ public class NotificationController {
         } else {
             log.info("Notification Already Read or ID Not Exist");
         }
-        return user.totalNotification();
+        return u.totalNotification();
     }
 
     @GetMapping(path = "/{id}")

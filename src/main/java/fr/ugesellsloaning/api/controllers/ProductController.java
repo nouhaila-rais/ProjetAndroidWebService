@@ -46,10 +46,10 @@ public class ProductController {
     }
 
     @PostMapping(path = "/")
-    public void add(@Valid @RequestBody Product product, Principal principal) {
+    public void add(@Valid @RequestBody Product product){
 
-        Optional<User> user = userServices.getByLoginQuery(principal.getName());
-        user.ifPresent(value -> product.setUser(value.getId()));
+        //Optional<User> user = userServices.getByLoginQuery(principal.getName());
+        //user.ifPresent(value -> product.setUser(value.getId()));
 
         productServices.save(product);
     }

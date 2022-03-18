@@ -42,51 +42,53 @@ public class WishlistController {
         return wishlistServices.getProductInWishlist(user.getId()).size();
     }
 
-    @GetMapping(path  = "add/{product}")
-    public int add(@PathVariable(value = "product")  long product){
+    @GetMapping(path  = "add/{product}/{user}")
+    public int add(@PathVariable(value = "product")  long product,@PathVariable(value = "user")  long user){
         //current Use
         boolean exist=false;
 
-        String email = "mounas2@gmail.com";
-        User user = userServices.getUserByEmail(email);
-
+        //String email = "fati2@gmail.com";
+        User u = userServices.getUserById(user);
         Product product1 = productServices.getProductById(product);
-
-        if(product1!=null){
+        if (product1 != null) {
             Wishlist wishlist = new Wishlist();
-            wishlist.setUser(user.getId());
+            wishlist.setUser(u.getId());
             wishlist.setProduct(product);
 
-            List<Wishlist> wishlists = wishlistServices.getWishlistByUser(user.getId());
-            for (Wishlist wishlist1: wishlists) {
-                if(wishlist1.getProduct() == wishlist.getProduct() && wishlist1.getUser() == wishlist.getUser()){
+            List<Wishlist> wishlists = wishlistServices.getWishlistByUser(u.getId());
+            for (Wishlist wishlist1 : wishlists) {
+                if (wishlist1.getProduct() == wishlist.getProduct() && wishlist1.getUser() == wishlist.getUser()) {
                     exist = true;
                 }
             }
-            if(exist == false) wishlistServices.save(wishlist);
+            if (exist == false) wishlistServices.save(wishlist);
         }
 
-        return wishlistServices.getProductInWishlist(user.getId()).size();
+
+        return wishlistServices.getProductInWishlist(u.getId()).size();
     }
 
     @GetMapping(path = "/{id}")
     public Optional<Wishlist> getById(@PathVariable(value = "id")  long id){ return  wishlistServices.getWishlistById(id); }
 
 
-    @GetMapping(path = "/productInWishlist/")
-    public List<Product> getByUser(){
-        String email = "mounas2@gmail.com";
-        User user = userServices.getUserByEmail(email);
-        return wishlistServices.getProductInWishlist(user.getId());
+    @GetMapping(path = "/productInWishlist/{user}")
+    public List<Product> getByUser(@PathVariable(value = "user")  long user){
+        //String email = "mounas2@gmail.com";
+        User u = userServices.getUserById(user);
+        if(u!=null) return wishlistServices.getProductInWishlist(u.getId());
+        return null;
     }
 
-    @DeleteMapping("/deleteAll/")
-    public int deleteCartByUser(){
-        String email = "mounas2@gmail.com";
-        User user = userServices.getUserByEmail(email);
-        wishlistServices.deleteByUser(user.getId());
-
-        return wishlistServices.getProductInWishlist(user.getId()).size();
+    @DeleteMapping("/deleteAll/{user}")
+    public int deleteCartByUser(@PathVariable(value = "user")  long user){
+        //String email = "mounas2@gmail.com";
+        User u = userServices.getUserById(user);
+        if(u!=null){
+            wishlistServices.deleteByUser(u.getId());
+            return wishlistServices.getProductInWishlist(u.getId()).size();
+        }
+        return 0;
     }
 
     @DeleteMapping("/product/{product}")
@@ -98,13 +100,15 @@ public class WishlistController {
 
         return wishlistServices.getProductInWishlist(user.getId()).size();
     }
-
-    @GetMapping(path = "/addInCart/")
-    public int addWishlistInCart(){
-        String email ="mounas2@gmail.com";
-        User user = userServices.getUserByEmail(email);
-        wishlistServices.addInCart(user.getId());
-        return wishlistServices.getProductInWishlist(user.getId()).size();
+    @GetMapping(path = "/addInCart/{user}")
+    public int addWishlistInCart(@PathVariable(value = "user")  long user){
+        //String email ="mounas2@gmail.com";
+        User u = userServices.getUserById(user);
+        if(u!=null){
+            wishlistServices.addInCart(u.getId());
+            return wishlistServices.getProductInWishlist(u.getId()).size();
+        }
+        return 0;
     }
 
 }

@@ -47,7 +47,10 @@ public class WishlistServices {
         }
     }
     public void deleteByProduct(long product){
-        iWishlistRepository.deleteById(iWishlistRepository.findWishlistByProduct(product).getId());
+        Wishlist wishlist = iWishlistRepository.findWishlistByProduct(product);
+        if(wishlist!=null){
+            iWishlistRepository.deleteById(wishlist.getId());
+        }
     }
 
     public Optional<Wishlist> getWishlistById(long id){
