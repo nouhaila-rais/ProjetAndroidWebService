@@ -1,6 +1,5 @@
 package fr.ugesellsloaning.api.security;
 
-//import com.auth0.spring.security.api.JwtWebSecurityConfigurer;
 import fr.ugesellsloaning.api.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -56,6 +55,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .and().logout().logoutUrl("/logout")
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         ;
     }
 
