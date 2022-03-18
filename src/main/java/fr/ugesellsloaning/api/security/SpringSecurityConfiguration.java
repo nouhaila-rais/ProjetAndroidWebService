@@ -37,8 +37,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic().and()
                 .cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole(ADMIN)
-                .antMatchers("/api/**").hasAnyRole(ADMIN, USER)
+                //.antMatchers("/admin/**").hasRole(ADMIN)
+                //.antMatchers("/api/**").hasAnyRole(ADMIN, USER)
                 .antMatchers(HttpMethod.POST,"/login", "/register").permitAll()
                 .antMatchers(HttpMethod.GET,"/logout").authenticated()
                 //**** Swagger
@@ -52,7 +52,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("**/*.css").permitAll()
                 .antMatchers("**/*.js").permitAll()
                 //*** End Swagger conf
-                .anyRequest().authenticated()
+                //.anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and().formLogin()
                 .and().logout().logoutUrl("/logout")
                 .and()
