@@ -74,18 +74,15 @@ public class UserController {
         userServices.deleteById(id);
     }
 
-    /*
-    @GetMapping(path = "/api/user/current-user")
-    public Optional<User> getCurrentUser(Principal principal){
-        return userServices.getByLoginQuery(principal.getName());
-
-    @PostMapping("/login")
     public int login(@RequestBody User user){
         User user1 = userServices.getUserByEmail(user.getEmail());
+
         if(user1 != null){
             //String password = passwordEncoder.encode(user.getPassword());
             //System.out.println(password);
             System.out.println(user1.getPassword());
+            //User currentUser = (User)request.getAttribute("userName");
+
             if(user.getEmail().equals(user1.getEmail()) && user.getPassword().equals(user1.getPassword())) {
                 return (int) user1.getId();
             }
@@ -93,7 +90,7 @@ public class UserController {
         }
         return -2;
     }
-*/
+
     @PostMapping("/secured/test")
     public int logintest(@RequestBody User user){
         User user1 = userServices.getUserByEmail(user.getEmail());
@@ -130,3 +127,4 @@ public class UserController {
     }
 
 }
+
