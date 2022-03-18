@@ -17,15 +17,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private IUserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(email);
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        //Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> user = userRepository.loginQuery(login);
 
-        if(user==null){
-            throw new UsernameNotFoundException(email+ "Not found");
-        }
+        user.orElseThrow(() -> new UsernameNotFoundException(login + " not found."));
 
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>(Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+        return user.map(UserDetailsImpl::new).get();
+
     }
 }

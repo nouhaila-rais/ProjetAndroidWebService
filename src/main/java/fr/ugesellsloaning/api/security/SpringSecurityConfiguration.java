@@ -16,8 +16,11 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity
-public class WebSecurity extends WebSecurityConfigurerAdapter {
-    private static final String DEFAULT_INCLUDE_PATTERN = "/api/toRemove/**";
+public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    private static final String ADMIN = "ADMIN";
+    private static final String USER = "USER";
+    private static final String DEFAULT_INCLUDE_PATTERN = "/api/**";
+
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
@@ -25,11 +28,21 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    protected  void configure(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/register").permitAll()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
-                //--------Swagger authorisation------------
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .httpBasic().and()
+                .cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/admin/**").hasRole(ADMIN)
+                .antMatchers("/api/**").hasAnyRole(ADMIN, USER)
+                .antMatchers(HttpMethod.POST,"/login", "/register").permitAll()
+                .antMatchers(HttpMethod.GET,"/logout").authenticated()
+                //**** Swagger
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/webjars/springfox-swagger-ui/**").permitAll()
@@ -39,18 +52,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("**/*.html").permitAll()
                 .antMatchers("**/*.css").permitAll()
                 .antMatchers("**/*.js").permitAll()
-                //----------------------------------------
-                .anyRequest().permitAll()
-                //.anyRequest().authenticated()
-                .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    }
-
-    @Override
-    public void configure(AuthenticationManagerBuilder authBuilder) throws Exception{
-        authBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+                //*** End Swagger conf
+                .anyRequest().authenticated()
+                .and().formLogin()
+                .and().logout().logoutUrl("/logout")
+        ;
     }
 
     @Bean
@@ -60,4 +66,5 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
         return source;
     }
+
 }

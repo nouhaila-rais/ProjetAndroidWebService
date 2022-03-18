@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 
@@ -44,18 +45,13 @@ public class ProductController {
 
     }
 
-    @PostMapping(path = "/secured/")
-    public void add(@Valid @RequestBody Product product){
-        //String username = request.getUserPrincipal().getName();
-        //log.info("Add product by "+username);
-        //User user = userServices.getUserByEmail(username);
-        //product.setUser(user);
-        //product.setImage(fileName);
-        String email = "nouhailarais14@mail.com";
-        User user = userServices.getUserByEmail(email);
-        product.setUser(user.getId());
-        productServices.save(product);
+    @PostMapping(path = "/")
+    public void add(@Valid @RequestBody Product product, Principal principal) {
 
+        Optional<User> user = userServices.getByLoginQuery(principal.getName());
+        user.ifPresent(value -> product.setUser(value.getId()));
+
+        productServices.save(product);
     }
 
     @GetMapping(path = "/{id}")
@@ -83,7 +79,7 @@ public class ProductController {
     @PutMapping(value = "/")
     //@PreAuthorize("hasAuthority('ADMIN') || (returnObject != null && returnObject.getUser().getEmail() == authentication.principal)")
     public void edit(@Valid @RequestBody Product product) throws Exception {
-        String email = "kanghebalde1@gmail.com";
+        String email = "mounas@gmail.com";
         User user = userServices.getUserByEmail(email);
 
         if(product.getUser() == user.getId()){
