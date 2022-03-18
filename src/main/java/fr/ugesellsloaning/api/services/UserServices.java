@@ -55,7 +55,7 @@ public class UserServices{
         return getUser(user);
     }
 
-    public List<User> getUserByLogin(String login) {
+    public List<User> getUsersByLogin(String login) {
         List<User> listUsers = userRepository.findAllByLogin(login);
         return getUsers(listUsers);
     }
@@ -67,6 +67,10 @@ public class UserServices{
     public User getUserByEmail(String email){
         User user = userRepository.findUserByEmail(email);
         return getUser(user);
+    }
+
+    public User getUserByLogin(String login){
+        return userRepository.findUserByLogin(login);
     }
 
     public void delete(User user){
@@ -92,6 +96,7 @@ public class UserServices{
             user.setTotalWishlist(wishlistServices.getProductInWishlist(user.getId()).size());
 
         }
+
         return user;
     }
 
