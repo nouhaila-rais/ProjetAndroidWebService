@@ -1,6 +1,7 @@
 package fr.ugesellsloaning.api.controllers;
 
 
+import fr.ugesellsloaning.api.entities.Cart;
 import fr.ugesellsloaning.api.entities.Product;
 import fr.ugesellsloaning.api.entities.User;
 import fr.ugesellsloaning.api.entities.Wishlist;
@@ -34,33 +35,36 @@ public class WishlistController {
         return wishlistServices.wishlists();
     }
 
-    @GetMapping(path = "/totalCart/")
+    @GetMapping(path = "/totalWihslist/")
     public int getTotalWislhist(){
-        String email = "nouhailarais14@gmail.com";
+        String email =  "mounas@gmail.com";
         User user = userServices.getUserByEmail(email);
         return wishlistServices.getProductInWishlist(user.getId()).size();
     }
 
-    @PostMapping(path = "/")
-    public int add(@Valid @RequestBody Wishlist wishlist){
+    @GetMapping(path  = "/{product}")
+    public int add(@PathVariable(value = "product")  long product){
         //current Use
         boolean exist=false;
 
-        String email = "nouhailarais14@gmail.com";
+        String email = "mounas@gmail.com";
         User user = userServices.getUserByEmail(email);
 
-        Product product = productServices.getProductById(wishlist.getProduct());
+        Product product1 = productServices.getProductById(product);
 
-        wishlist.setUser(user.getId());
-        wishlist.setProduct(product.getId());
+        if(product1!=null){
+            Wishlist wishlist = new Wishlist();
+            wishlist.setUser(user.getId());
+            wishlist.setProduct(product);
 
-        List<Wishlist> wishlists = wishlistServices.getWishlistByUser(user.getId());
-        for (Wishlist wishlist1: wishlists) {
-            if(wishlist.getProduct() == wishlist.getProduct() && wishlist.getUser() == wishlist.getUser()){
-                exist = true;
+            List<Wishlist> wishlists = wishlistServices.getWishlistByUser(user.getId());
+            for (Wishlist wishlist1: wishlists) {
+                if(wishlist1.getProduct() == wishlist.getProduct() && wishlist1.getUser() == wishlist.getUser()){
+                    exist = true;
+                }
             }
+            if(exist == false) wishlistServices.save(wishlist);
         }
-        if(exist == false) wishlistServices.save(wishlist);
 
         return wishlistServices.getProductInWishlist(user.getId()).size();
     }
@@ -71,14 +75,14 @@ public class WishlistController {
 
     @GetMapping(path = "/productInWishlist/")
     public List<Product> getByUser(){
-        String email = "nouhailarais14@gmail.com";
+        String email = "mounas@gmail.com";
         User user = userServices.getUserByEmail(email);
         return wishlistServices.getProductInWishlist(user.getId());
     }
 
     @DeleteMapping("/deleteAll/")
     public int deleteCartByUser(){
-        String email = "nouhailarais14@gmail.com";
+        String email = "mounas@gmail.com";
         User user = userServices.getUserByEmail(email);
         wishlistServices.deleteByUser(user.getId());
 
@@ -87,7 +91,7 @@ public class WishlistController {
 
     @DeleteMapping("/product/{product}")
     public int deleteProductInWishlist(@PathVariable(value = "product")  long product){
-        String email = "nouhailarais14@gmail.com";
+        String email = "mounas@gmail.com";
         User user = userServices.getUserByEmail(email);
 
         wishlistServices.deleteByProduct(product);
@@ -97,7 +101,7 @@ public class WishlistController {
 
     @GetMapping(path = "/addInCart/")
     public int addWishlistInCart(){
-        String email = "nouhailarais14@gmail.com";
+        String email ="mounas@gmail.com";
         User user = userServices.getUserByEmail(email);
         wishlistServices.addInCart(user.getId());
         return wishlistServices.getProductInWishlist(user.getId()).size();

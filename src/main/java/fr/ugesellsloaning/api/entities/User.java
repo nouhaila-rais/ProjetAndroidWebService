@@ -54,7 +54,6 @@ public class User implements Serializable {
         this.updatedAt = user.getUpdatedAt();
         this.updatedBy = user.getUpdatedBy();
         this.NberOfTimesToBorrow = user.getNberOfTimesToBorrow();
-        this.roles = user.getRoles();
         this.password = user.getPassword();
     }
 
@@ -155,9 +154,5 @@ public class User implements Serializable {
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JsonBackReference(value = "user-request")
     Collection<RequestBorrow> requestBorrows;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    //@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    Set<Role> roles;
 
 }

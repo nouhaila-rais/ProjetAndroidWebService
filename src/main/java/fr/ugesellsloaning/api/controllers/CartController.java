@@ -9,8 +9,6 @@ import fr.ugesellsloaning.api.services.UserServices;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,31 +37,32 @@ public class CartController {
         return cartServices.getProductInCart(user.getId()).size();
     }
 
-    @PostMapping(path = "/")
-    public int add(@Valid @RequestBody  Cart cart){
+    @GetMapping(path = "/{product}")
+    public int add(@PathVariable(value = "product")  long product ){
         //current Use
         boolean exist=false;
 
         String email = "nouhailarais14@gmail.com";
         User user = userServices.getUserByEmail(email);
 
-        Product product = productServices.getProductById(cart.getProduct());
+        Product product1 = productServices.getProductById(product);
+        if(product1 != null){
+            Cart cart = new Cart();
+            cart.setUser(user.getId());
+            cart.setProduct(product);
 
-        cart.setUser(user.getId());
-        cart.setProduct(product.getId());
-
-        List<Cart> carts = cartServices.getCartByUser(user.getId());
-        for (Cart cart1: carts) {
-            if(cart1.getProduct() == cart.getProduct() && cart1.getUser() == cart.getUser()){
-                exist = true;
+            List<Cart> carts = cartServices.getCartByUser(user.getId());
+            for (Cart cart1: carts) {
+                if(cart1.getProduct() == cart.getProduct() && cart1.getUser() == cart.getUser()){
+                    exist = true;
+                }
             }
+            if(exist == false) cartServices.save(cart);
         }
-        if(exist == false) cartServices.save(cart);
-
         return cartServices.getProductInCart(user.getId()).size();
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/id/{id}")
     public Optional<Cart> getById(@PathVariable(value = "id")  long id){ return  cartServices.getCartById(id); }
 
 
@@ -93,17 +92,25 @@ public class CartController {
         return cartServices.getProductInCart(user.getId()).size();
     }
 
-    @PostMapping(path = "/buy/")
-    public boolean buyCart(@RequestBody  double amount){
-        String email = "kanghebalde1@gmail.com";
+    @GetMapping(path = "/buy/")
+    public boolean buyCart(){
+        Double amount = 0.0;
+        String email = "nouhailarais14@gmail.com";
         User user = userServices.getUserByEmail(email);
-        return cartServices.confirmPurchase(user.getId(), amount);
+        if(user != null){
+            List<Product> productList = cartServices.getProductInCart(user.getId());
+            for (Product product : productList){
+                amount= amount + product.getPrice();
+            }
+            return cartServices.confirmPurchase(user.getId(), amount);
+        }
+        return false;
     }
-
+/*
     @GetMapping(path = "/buy/{user}")
     public boolean buyCart(@PathVariable(value = "user")  long user){
         Double amount = 0.0;
-        String email = "kanghebalde1@gmail.com";
+        String email = "nouhailarais14@gmail.com";
         User user1 = userServices.getUserById(user);
         List<Product> productList = cartServices.getProductInCart(user);
         for (Product product : productList){
@@ -112,4 +119,5 @@ public class CartController {
         return cartServices.confirmPurchase(user, amount);
     }
 
+ */
 }
