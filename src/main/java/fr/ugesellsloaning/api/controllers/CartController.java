@@ -32,7 +32,7 @@ public class CartController {
 
     @GetMapping(path = "/totalCart/")
     public int getTotalCart(){
-        String email = "nouhailarais14@gmail.com";
+        String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         return cartServices.getProductInCart(user.getId()).size();
     }
@@ -42,7 +42,7 @@ public class CartController {
         //current Use
         boolean exist=false;
 
-        String email = "nouhailarais14@gmail.com";
+        String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
 
         Product product1 = productServices.getProductById(product);
@@ -68,14 +68,14 @@ public class CartController {
 
     @GetMapping(path = "/productInCart/")
     public List<Product> getByUser(){
-        String email = "nouhailarais14@gmail.com";
+        String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         return cartServices.getProductInCart(user.getId());
     }
 
     @DeleteMapping("/deleteAll/")
     public int deleteCartByUser(){
-        String email = "nouhailarais14@gmail.com";
+        String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         cartServices.deleteByUser(user.getId());
 
@@ -84,7 +84,7 @@ public class CartController {
 
     @DeleteMapping("/product/{product}")
     public int deleteCartByProduct(@PathVariable(value = "product")  long product){
-        String email = "nouhailarais14@gmail.com";
+        String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
 
         cartServices.deleteByProduct(product);
@@ -95,7 +95,7 @@ public class CartController {
     @GetMapping(path = "/buy/")
     public boolean buyCart(){
         Double amount = 0.0;
-        String email = "nouhailarais14@gmail.com";
+        String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         if(user != null){
             List<Product> productList = cartServices.getProductInCart(user.getId());
@@ -110,7 +110,7 @@ public class CartController {
     @GetMapping(path = "/buy/{user}")
     public boolean buyCart(@PathVariable(value = "user")  long user){
         Double amount = 0.0;
-        String email = "nouhailarais14@gmail.com";
+        String email = "mounas2@gmail.com";
         User user1 = userServices.getUserById(user);
         List<Product> productList = cartServices.getProductInCart(user);
         for (Product product : productList){

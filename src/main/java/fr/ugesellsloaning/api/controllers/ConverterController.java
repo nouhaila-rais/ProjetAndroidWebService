@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api( tags={"Operations Taux de Conversion \"Converter\""})
 @RestController
-@RequestMapping("/api/convert")
+@RequestMapping("/api/currency")
 public class ConverterController {
 
     @GetMapping(path = "/{currency}")

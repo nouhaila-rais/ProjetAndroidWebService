@@ -37,7 +37,7 @@ public class WishlistController {
 
     @GetMapping(path = "/totalWihslist/")
     public int getTotalWislhist(){
-        String email =  "mounas@gmail.com";
+        String email =  "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         return wishlistServices.getProductInWishlist(user.getId()).size();
     }
@@ -47,7 +47,7 @@ public class WishlistController {
         //current Use
         boolean exist=false;
 
-        String email = "mounas@gmail.com";
+        String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
 
         Product product1 = productServices.getProductById(product);
@@ -75,14 +75,14 @@ public class WishlistController {
 
     @GetMapping(path = "/productInWishlist/")
     public List<Product> getByUser(){
-        String email = "mounas@gmail.com";
+        String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         return wishlistServices.getProductInWishlist(user.getId());
     }
 
     @DeleteMapping("/deleteAll/")
     public int deleteCartByUser(){
-        String email = "mounas@gmail.com";
+        String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         wishlistServices.deleteByUser(user.getId());
 
@@ -91,7 +91,7 @@ public class WishlistController {
 
     @DeleteMapping("/product/{product}")
     public int deleteProductInWishlist(@PathVariable(value = "product")  long product){
-        String email = "mounas@gmail.com";
+        String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
 
         wishlistServices.deleteByProduct(product);
@@ -101,7 +101,7 @@ public class WishlistController {
 
     @GetMapping(path = "/addInCart/")
     public int addWishlistInCart(){
-        String email ="mounas@gmail.com";
+        String email ="mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         wishlistServices.addInCart(user.getId());
         return wishlistServices.getProductInWishlist(user.getId()).size();

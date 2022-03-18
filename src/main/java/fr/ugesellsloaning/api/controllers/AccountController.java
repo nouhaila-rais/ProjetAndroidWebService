@@ -29,12 +29,21 @@ public class AccountController {
         return (List<Account>) accountServices.listAccount();
     }
 
+
     @ApiOperation(value = "Crediter Mon compte")
     @PostMapping(path = "/credit/")
-    public void add( @RequestBody Account account){
-        String email = "kanghebalde1@gmail.com";
+    public void add(@RequestBody Account account){
+        String email = "mounas2@gmail.com";
         User user = userServices.getUserByEmail(email);
         accountServices.creditAccount(user.getId(), account.getSolde());
+    }
+
+    @ApiOperation(value = "Mon Solde")
+    @GetMapping(path = "/solde/")
+    public double getSolde(){
+        String email = "mounas2@gmail.com";
+        User user = userServices.getUserByEmail(email);
+        return accountServices.getSolde(user.getId());
     }
 
     @ApiOperation(value = "Récupèration d'un compte")
@@ -52,4 +61,6 @@ public class AccountController {
     public void deleteById(@PathVariable(value = "id")  long id){
         accountServices.deleteById(id);
     }
+
+
 }
