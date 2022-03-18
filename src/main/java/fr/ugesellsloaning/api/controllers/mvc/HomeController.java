@@ -1,4 +1,4 @@
-package fr.ugesellsloaning.api.controllers;
+package fr.ugesellsloaning.api.controllers.mvc;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

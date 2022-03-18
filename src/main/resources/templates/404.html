@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Espace personel gestion des comptes">
+  <meta name="author" content="Nouhaila Rais">
+  <meta name="keyword" content="Dashboard, UPEM, UGE, SPRING, JAVA, ANDROID">
+  <title>UGE | Projet Android</title>
+
+  <!-- Favicons -->
+  <link href="../static/img/favicon.png" th:href="@{/img/favicon.png}" rel="icon">
+  <!--<link href="../static/css/Layout.css" th:href="@{/css/Layout.css}" rel="stylesheet" />-->
+  <link href="../static/img/apple-touch-icon.png" th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Bootstrap core CSS -->
+  <link href="../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!--external css-->
+  <link href="../static/lib/font-awesome/css/font-awesome.css" th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="../static/css/style.css}" th:href="@{/css/style.css}" rel="stylesheet">
+  <link href="../static/css/style-responsive.css}" th:href="@{/css/style-responsive.css}" rel="stylesheet">
+</head>
+
+<body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-lg-offset-3 p404 centered">
+        <img src="img/404.png" alt="">
+        <h1>DON'T PANIC!!</h1>
+        <h3>The page you are looking for doesn't exist.</h3>
+        <br>
+        <!--<div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <input type="text" class="form-control" id="form1Name" name="form1Name">
+            <button class="btn btn-theme mt">Search</button>
+          </div>-->
+        </div>
+        <h5 class="mt">Hey, maybe you will be interested in these pages:</h5>
+        <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
+        <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
+        <p>
+          <a href="index.html" th:href="@{/login.html}">Back to Home Page</a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script th:src="@{/lib/jquery/jquery.min.js}" src="../static/lib/jquery/jquery.min.js"></script>
+  <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}" src="../static/lib/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
