@@ -24,15 +24,11 @@ public class UserController {
     @Autowired
     UserServices userServices;
 
-
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
-
-
     @Autowired
     AccountServices accountServices;
-
 
     @Autowired
     HttpServletRequest request;
@@ -53,7 +49,6 @@ public class UserController {
 
     @PostMapping(path = "/register")
     public boolean register(@Valid @RequestBody User user){
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userServices.save(user);
     }
 
@@ -78,25 +73,18 @@ public class UserController {
         userServices.deleteById(id);
     }
 
-    /*
-    @PostMapping("/secured/test")
-    public int logintest(@RequestBody User user){
+    @PostMapping("/api/login")
+    public int login(@RequestBody User user){
         User user1 = userServices.getUserByEmail(user.getEmail());
 
         if(user1 != null){
-            //String password = passwordEncoder.encode(user.getPassword());
-            //System.out.println(password);
-            System.out.println(user1.getPassword());
-            //User currentUser = (User)request.getAttribute("userName");
 
             if(user.getEmail().equals(user1.getEmail()) && user.getPassword().equals(user1.getPassword())) {
-                System.out.println("user current " + principal.getName());
                 return (int) user1.getId();
             }
             else return -1;
         }
         return -2;
     }
-*/
 
 }

@@ -130,7 +130,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        objectMapper.writeValue(response.getWriter(), -1 );
+        objectMapper.writeValue(response.getWriter(), -2 );
     }
 
     public User currentUser(){
