@@ -11,7 +11,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 
 @Service
@@ -57,8 +56,6 @@ public class NotificationServices {
 
 
     public void SendMailNotificationUtilisateur(User user,String object, String message) {
-        //User u = userServices.getUserById(u)
-        //Utilisateur u = utilisateurDao.GetUtilisateurById(IdUtilisateur);
         Properties props = new Properties();
         props.put("mail.smtp.host", "mail.makcenter.ma");
         props.put("mail.smtp.socketFactory.port", "465");

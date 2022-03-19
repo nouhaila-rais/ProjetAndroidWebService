@@ -104,7 +104,6 @@ public class ProductServices {
         requestBorrowServices.deleteByProduct(id);
         cartServices.deleteByProduct(id);
         wishlistServices.deleteByProduct(id);
-        waitingListServices.deleteByProduct(id);
     }
 
 

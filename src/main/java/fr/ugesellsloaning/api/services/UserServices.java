@@ -50,7 +50,7 @@ public class UserServices{
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Iterable<User> listUser = listUser();
         for (User u : listUser){
-            if(u.getLogin().equals(user.getLogin()) && u.getEmail().equals(user.getEmail())){
+            if(u.getEmail().equals(user.getEmail())){
                 userExist = true;
             }
         }
@@ -89,10 +89,6 @@ public class UserServices{
     public User getUserByEmail(String email){
         User user = userRepository.findUserByEmail(email);
         return getUser(user);
-    }
-
-    public User getUserByLogin(String login){
-        return userRepository.findUserByLogin(login);
     }
 
     public void delete(User user){
@@ -137,6 +133,27 @@ public class UserServices{
         return userList;
     }
 
+    public void Forgotyourpassword(String email) {
+        User user = getUserByEmail(email);
+        if(user!=null) {
+            String objet = "Mot de passe oublié";
+            String message = "Bonjour,\n\nVoici votre mot de passe : " + user.getPassword() + "\n\nUniversité Gustave Eiffel";
+            notificationServices.SendMailNotificationUtilisateur(user, objet, message);
+        }
+    }
 
-
+    public void SuccesRegister(String email) {
+        User user = getUserByEmail(email);
+        if(user!=null) {
+            String objet = "Confirmation de votre inscription";
+            String message = "Bonjour," +
+                    "\n\nVous venez de vous inscrire sur l'application UGE." +
+                    "Nous vous souhaitons la bienvenue. Veuillez trouver ci-dessous vos identifiants de connexion." +
+                    "\nVotre identifiant : " + user.getEmail() +
+                    "\nVotre mot de passe : " +  user.getPassword() +
+                    "\nCordialement."+
+                    "\n\nUniversité Gustave Eiffel";
+            notificationServices.SendMailNotificationUtilisateur(user, objet, message);
+        }
+    }
 }

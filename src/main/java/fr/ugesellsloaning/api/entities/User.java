@@ -40,7 +40,6 @@ public class User implements Serializable {
         this.id = user.getId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
-        this.login = user.getLogin();
         this.email =user.getEmail();
         this.phone = user.getPhone();
         this.address = user.getAddress();
@@ -55,11 +54,6 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     //@ApiModelProperty(hidden = true)
     long id;
-
-    @Column(unique = true)
-    @Pattern(regexp = "^[a-z0-9]*$")
-    @NotBlank(message = "Login cannot be null")
-    String login;
 
     @NotBlank(message = "Name cannot be null")
     String lastName;

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class UserDetailsImpl implements UserDetails {
 
     public UserDetailsImpl(User user) {
-        this.userName = user.getLogin();
+        //this.userName = user.getLogin();
         this.password = user.getPassword();
         this.isActive = user.isActive();
         this.authorities = Arrays.stream(user.getRole().split(","))

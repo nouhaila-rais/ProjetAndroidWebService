@@ -10,9 +10,10 @@ import java.util.Optional;
 public interface IUserRepository extends CrudRepository<User, Long> {
     List<User> findAllByLogin(String login);
     Optional<User> findByEmail(String email);
-    @Query("SELECT u FROM User u WHERE u.isActive = true and (u.login = ?1 or u.email=?1)")
+
+    @Query("SELECT u FROM User u WHERE u.isActive = true and  u.email=?1")
     Optional<User> loginQuery(String login);
-    User findUserByLogin(String login);
+
     User findUserByEmail(String email);
     User findById(long id);
 

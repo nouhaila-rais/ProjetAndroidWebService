@@ -52,6 +52,14 @@ public class UserController {
         return userServices.save(user);
     }
 
+    @GetMapping(path = "/api/forgetpw/{email}")
+    public void forgetPassword(@PathVariable(value = "email")  String email){
+        User u = userServices.getUserByEmail(email);
+        if(u!=null){
+            userServices.Forgotyourpassword(email);
+        }
+    }
+
     @GetMapping(path = "/api/user/{id}")
     public User getById(@PathVariable(value = "id")  long id){
         return  userServices.getUserById(id);
