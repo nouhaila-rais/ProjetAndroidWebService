@@ -31,6 +31,7 @@ public class Product implements Serializable {
         Date d = new Date();
         createdAt = dateFormat.format(d).toString();
         available = true;
+        nmberToBorrow=0;
     }
 
     @Id
@@ -61,6 +62,7 @@ public class Product implements Serializable {
 
     String createdAt;
 
+    long nmberToBorrow;
 
     @Column(length = 500)
     String path;

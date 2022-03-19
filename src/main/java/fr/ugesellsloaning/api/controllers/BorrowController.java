@@ -61,8 +61,8 @@ public class BorrowController {
 
         Product p = productServices.getProductById(borrow.getProduct());
         p.setAvailable(false);
+        p.setNmberToBorrow(p.getNmberToBorrow()+1);
         productServices.save(p);
-
     }
 
     @GetMapping(path = "/{id}")

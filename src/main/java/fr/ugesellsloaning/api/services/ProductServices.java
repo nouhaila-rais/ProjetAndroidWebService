@@ -7,6 +7,10 @@ import fr.ugesellsloaning.api.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Vector;
 
@@ -134,4 +138,36 @@ public class ProductServices {
         return list;
     }
 
+    public List<Product> listProductbuy(){
+        Iterable<Product> list= listProduct();
+        Vector<Product> res =new Vector<Product>();
+        for (Product produit : list) {
+            if(DifferanceDeMois(produit.getCreatedAt())>=2 && produit.getNmberToBorrow()>=1) res.add(produit);
+        }
+        return res;
+    }
+
+    public List<Product> getProductsByKeyWordToBuy(String key){
+        List<Product> list= listProductbuy();
+        Vector<Product> res =new Vector<Product>();
+        for (Product product : list) {
+            if (product.getName().toLowerCase().contains(key.toLowerCase()) || product.getCategory().toLowerCase().contains(key.toLowerCase()) || product.getType().toLowerCase().contains(key.toLowerCase()))
+                res.add(product);
+        }
+        return res;
+    }
+
+    private String DateAujourdhui() {
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return myDateObj.format(myFormatObj);
+    }
+
+    private int DifferanceDeMois(String date) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDate date1 = LocalDate.parse(DateAujourdhui(), format);
+        LocalDate date2 = LocalDate.parse(date, format);
+        Period period = Period.between(date2, date1);
+        return period.getMonths();
+    }
 }

@@ -45,6 +45,21 @@ public class ProductController {
 
     }
 
+    @GetMapping(path = "/buy/")
+    public List<Product> listtobuy(){
+        //principal = request.getUserPrincipal();
+        //email = principal.getName();
+        //System.out.println(email);
+        return productServices.listProductbuy();
+
+    }
+
+    @GetMapping(path = "/buy/key/{key}")
+    public List<Product> getProductBuyByKey(@PathVariable(value = "key")  String key){
+        return  productServices.getProductsByKeyWordToBuy(key.replace("%", " ")) ; }
+
+
+
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody Product product){
 
