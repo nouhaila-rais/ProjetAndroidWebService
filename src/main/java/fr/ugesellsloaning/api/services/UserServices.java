@@ -77,13 +77,9 @@ public class UserServices{
         return getUser(user);
     }
 
-    public List<User> getUsersByLogin(String login) {
-        List<User> listUsers = userRepository.findAllByLogin(login);
-        return getUsers(listUsers);
-    }
 
     public Optional<User> getByLoginQuery(String login){
-        return  userRepository.loginQuery(login);
+        return  userRepository.findByEmail(login);
     }
 
     public User getUserByEmail(String email){
@@ -148,10 +144,10 @@ public class UserServices{
             String objet = "Confirmation de votre inscription";
             String message = "Bonjour," +
                     "\n\nVous venez de vous inscrire sur l'application UGE." +
-                    "Nous vous souhaitons la bienvenue. Veuillez trouver ci-dessous vos identifiants de connexion." +
+                    "Nous vous souhaitons la bienvenue. \n\nVeuillez trouver ci-dessous vos identifiants de connexion." +
                     "\nVotre identifiant : " + user.getEmail() +
                     "\nVotre mot de passe : " +  user.getPassword() +
-                    "\nCordialement."+
+                    "\n\nCordialement."+
                     "\n\nUniversité Gustave Eiffel";
             notificationServices.SendMailNotificationUtilisateur(user, objet, message);
         }
