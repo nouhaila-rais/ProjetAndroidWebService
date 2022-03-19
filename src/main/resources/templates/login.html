@@ -29,15 +29,15 @@
       <form class="form-login" th:action="@{/login-check}" method="post">
         <h2 class="form-login-heading">sign in now</h2>
         <div class="login-wrap">
-          <input type="text" class="form-control" id="username" name="username" th:value="${username}" autofocus />
+          <input type="text" class="form-control" id="username" name="username" th:value="" autofocus />
           <br>
           <input type="password" class="form-control" name="password" placeholder="Password">
           <br>
-          <div th:if="${loginError}" class="error">
+          <!--<div th:if="${loginError}" class="error">
             <div class="alert alert-danger" role="alert">
               Erreur de l'identifiant ou du mot de passe
             </div>
-          </div>
+          </div> -->
           <label class="checkbox">
             <span class="pull-right">
             <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
