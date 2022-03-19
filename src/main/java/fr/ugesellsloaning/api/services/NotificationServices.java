@@ -93,4 +93,7 @@ public class NotificationServices {
         return notificationRepository.findNotificationByUser(user);
     }
 
+    public List<Notification> getNotificationOrderByCreatedAtDes(long user){
+        return notificationRepository.notificationOfUser(user);
+    }
 }

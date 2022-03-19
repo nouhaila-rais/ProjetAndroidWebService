@@ -72,7 +72,6 @@ public class UserController {
 
     @PutMapping(value = "/api/user/edit/")
     public void edit(@Valid @RequestBody User user){
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         userServices.save(user);
     }
 

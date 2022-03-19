@@ -42,7 +42,6 @@ public class AccountController {
     @ApiOperation(value = "Mon Solde")
     @GetMapping(path = "/solde/{user}")
     public double getSolde(@PathVariable(value = "user")long user){
-        //String email = "mounas2@gmail.com";
         User u = userServices.getUserById(user);
         return accountServices.getSolde(u.getId());
     }

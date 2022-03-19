@@ -37,8 +37,6 @@ public class CommentController {
 
     @PostMapping(path = "/")
     public void add(@Valid @RequestBody  Comment comment){
-        // product.setUser(user);
-        //product.setImage(fileName);
         User user = userServices.getUserById(comment.getUser());
         comment.setLastName(user.getLastName());
         comment.setFirstName(user.getFirstName());

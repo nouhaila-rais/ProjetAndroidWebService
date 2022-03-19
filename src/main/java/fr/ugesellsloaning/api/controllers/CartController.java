@@ -30,19 +30,11 @@ public class CartController {
         return cartServices.listCart();
     }
 
-    @GetMapping(path = "/totalCart/")
-    public int getTotalCart() {
-        String email = "mounas2@gmail.com";
-        User user = userServices.getUserByEmail(email);
-        return cartServices.getProductInCart(user.getId()).size();
-    }
-
     @GetMapping(path = "add/{product}/{user}")
     public int add(@PathVariable(value = "product") long product, @PathVariable(value = "user")  long user) {
         //current Use
         boolean exist = false;
 
-        //String email = "mounas2@gmail.com";
         User u = userServices.getUserById(user);
 
         Product product1 = productServices.getProductById(product);
@@ -70,7 +62,6 @@ public class CartController {
 
     @GetMapping(path = "/productInCart/{user}")
     public List<Product> getByUser(@PathVariable(value = "user")  long user) {
-        //String email = "mounas2@gmail.com";
         User u = userServices.getUserById(user);
         if(u!=null){
             return cartServices.getProductInCart(user);
@@ -78,30 +69,30 @@ public class CartController {
         return null;
     }
 
-    @DeleteMapping("/deleteAll/{user}")
+    @GetMapping("/deleteAll/{user}")
     public int deleteCartByUser(@PathVariable(value = "user")  long user){
-        //String email = "mounas2@gmail.com";
         User u = userServices.getUserById(user);
-        cartServices.deleteByUser(user);
-
-        return cartServices.getProductInCart(user).size();
+        if(u!=null) {
+            cartServices.deleteByUser(user);
+            return cartServices.getProductInCart(user).size();
+        }
+        return 0;
 
     }
 
-    @DeleteMapping("/product/{product}")
-    public int deleteCartByProduct(@PathVariable(value = "product") long product) {
-        String email = "mounas2@gmail.com";
-        User user = userServices.getUserByEmail(email);
+    @DeleteMapping("/product/{product}/{user}")
+    public int deleteCartByProduct(@PathVariable(value = "product")  long product,@PathVariable(value = "user")  long user){
+
+        User u = userServices.getUserById(user);
 
         cartServices.deleteByProduct(product);
 
-        return cartServices.getProductInCart(user.getId()).size();
+        return cartServices.getProductInCart(u.getId()).size();
     }
 
     @GetMapping(path = "/buy/{user}")
     public int buyCart(@PathVariable(value = "user")  long user){
         Double amount = 0.0;
-        //String email =  "fati2@gmail.com";
         User u = userServices.getUserById(user);
         if(u != null){
             List<Product> productList = cartServices.getProductInCart(u.getId());

@@ -102,7 +102,7 @@ public class UserServices{
     private User getUser(User user){
         if(user!=null) {
             user.setComments(commentServices.getCommentByUser(user.getId()));
-            user.setNotifications(notificationServices.getNotificationByUser(user.getId()));
+            user.setNotifications(notificationServices.getNotificationOrderByCreatedAtDes(user.getId()));
             user.setBorrows(borrowServices.borrowByUser(user.getId()));
             user.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(user.getId()));
             user.setProducts(productServices.getProductByUser(user.getId()));
@@ -118,7 +118,7 @@ public class UserServices{
         if(userList !=null) {
             for (User u : userList) {
                 u.setComments(commentServices.getCommentByUser(u.getId()));
-                u.setNotifications(notificationServices.getNotificationByUser(u.getId()));
+                u.setNotifications(notificationServices.getNotificationOrderByCreatedAtDes(u.getId()));
                 u.setBorrows(borrowServices.borrowByUser(u.getId()));
                 u.setRequestBorrows(requestBorrowServices.getRequestBorrowByUserStatusIsFalse(u.getId()));
                 u.setProducts(productServices.getProductByUser(u.getId()));
