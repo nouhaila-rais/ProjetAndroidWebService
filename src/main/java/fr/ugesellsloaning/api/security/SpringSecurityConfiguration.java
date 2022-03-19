@@ -57,32 +57,41 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
-    private static final String[] swaggerResources ={
-            "/swagger-ui.html",
-            "/webjars/springfox-swagger-ui/**",
-            "/swagger-resources/**",
-            "/v2/api-docs",
-            "/favicon.ico",
-            "**/*.html",
-            "**/*.css",
-            "**/*.js"
-    };
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .httpBasic()
-                .and().cors()
-                .and().csrf().disable().authorizeRequests()
+                .httpBasic().and()
+                .cors().and().csrf().disable()
+                .authorizeRequests()
                 //.antMatchers("/admin/**").hasRole(ADMIN)
                 //.antMatchers("/api/**").hasAnyRole(ADMIN, USER)
+
                 .antMatchers(HttpMethod.POST,"/login", "/register").permitAll()
+                .antMatchers(HttpMethod.GET,"/logout").authenticated()
+                //**** Swagger
+                .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/").permitAll()
-                .antMatchers(swaggerResources).permitAll()
+                .antMatchers("/webjars/springfox-swagger-ui/**").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/v2/api-docs").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
+                .antMatchers("**/*.html").permitAll()
+                .antMatchers("**/*.css").permitAll()
+                .antMatchers("**/*.js").permitAll()
+                //*** End Swagger conf
                 //.anyRequest().authenticated()
+
                 .anyRequest().permitAll()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .and().formLogin()
+                .and().logout().logoutUrl("/logout")
+                //.anyRequest().permitAll()
+                //.and().formLogin()
+                //.and().logout().logoutUrl("/logout")
+
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
         ;
     }
 
@@ -121,7 +130,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        objectMapper.writeValue(response.getWriter(), -1);
+        objectMapper.writeValue(response.getWriter(), -1 );
     }
 
     public User currentUser(){
