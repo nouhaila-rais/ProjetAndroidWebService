@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Espace personel gestion des comptes">
+  <meta name="author" content="Diallo Mamadou Hassimiou">
+  <meta name="keyword" content="Dashboard, UPEM, UGE, SPRING, JAVA, ANDROID">
+  <title>UGE | Projet Android</title>
+
+  <!-- Favicons -->
+  <link href="../static/img/favicon.png" th:href="@{/img/favicon.png}" rel="icon">
+  <!--<link href="../static/css/Layout.css" th:href="@{/css/Layout.css}" rel="stylesheet" />-->
+  <link href="../static/img/apple-touch-icon.png" th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Bootstrap core CSS -->
+  <link href="../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!--external css-->
+  <link href="../static/lib/font-awesome/css/font-awesome.css" th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="../static/css/style.css}" th:href="@{/css/style.css}" rel="stylesheet">
+  <link href="../static/css/style-responsive.css}" th:href="@{/css/style-responsive.css}" rel="stylesheet">
+</head>
+
+<body>
+  <section id="container">
+    <header class="header black-bg">
+      <div class="sidebar-toggle-box">
+        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+      </div>
+      <!--logo start-->
+      <a href="index.html" class="logo"><b>UGE | <span>Projet-Android</span></b></a>
+      <!--logo end-->
+      <div class="nav notify-row" id="top_menu">
+        <!--  notification start -->
+        <ul class="nav top-menu">
+        </ul>
+        <!--  notification end -->
+      </div>
+      <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+          <li><a class="logout" href="">Logout</a></li>
+        </ul>
+      </div>
+    </header>
+    <aside>
+      <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+          <p class="centered"><a href="profile.html"><img th:src="@{/img/profil.png}" src="../static/img/profil.png" class="img-circle" width="80"></a></p>
+          <h5 class="centered">Username</h5>
+          <li class="mt">
+            <a th:href="@{/admin/home}">
+              <i class="fa fa-dashboard"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="mt">
+            <a th:href="@{/admin/product}">
+              <i class="fa fa-table"></i>
+              <span>Product</span>
+            </a>
+          </li>
+          <li class="mt">
+            <a th:href="@{/}" target="_blank">
+              <i class="fa fa-book"></i>
+              <span>Swagger</span>
+            </a>
+          </li>
+        </ul>
+        <!-- sidebar menu end-->
+      </div>
+    </aside>
+
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Products</h3>
+        <div class="row mt">
+          <div class="col-lg-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-list-alt"></i> New product</h4>
+              <div class="form-panel">
+                <ul th:if="${hasError}">
+                  <li class="alert alert-danger" role="alert" th:each="err : ${errors}" th:text="${err.getDefaultMessage()}"/>
+                </ul>
+                <form action="#" th:action="@{/admin/product/save}" th:object="${product}" method="post">
+                  <div class="form-group row">
+                    <label for="name" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-6">
+                      <input type="text"  class="form-control" id="name" name="name" placeholder="Name" th:field="*{name}">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="price" class="col-sm-2 col-form-label">Price</label>
+                    <div class="col-sm-6">
+                      <input type="number" class="form-control" id="price" name="price" placeholder="Price (€)" th:field="*{price}">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="description" class="col-sm-2 col-form-label">Description</label>
+                    <div class="col-sm-6">
+                      <textarea class="form-control" name="description" id="description" placeholder="..." rows="5" th:field="*{description}"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="category" class="col-sm-2 col-form-label">Category</label>
+                    <div class="col-sm-6">
+                      <select class="custom-select mr-sm-3" id="category" th:field="*{category}" name="category">
+                        <option value="Bibliotheque">Bibliotheque</option>
+                        <option value="Electronique">Electronique</option>
+                        <option value="Mode et vetements">Mode et vetements</option>
+                        <option value="Musique">Musique</option>
+                        <option value="Accessoires">Accessoires</option>
+                        <option value="Autre">Autre</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="type" class="col-sm-2 col-form-label">Type</label>
+                    <div class="col-sm-6">
+                      <select class="custom-select mr-sm-6" id="type" th:field="*{type}" name="type">
+                        <optgroup label="Bibliothèque">
+                          <option value="Programmation">Programmation</option>
+                          <option value="Roman">Roman</option>
+                          <option value="Proverbe">Proverbe</option>
+                          <option value="Cuisine">Cuisine</option>
+                        </optgroup>
+                        <optgroup label="Electronique">
+                          <option value="Ordinateur">Ordinateur</option>
+                          <option value="Telephone">Telephone</option>
+                          <option value="Tablette">Tablette</option>
+                          <option value="TV">TV</option>
+                          <option value="Cle USB">Cle USB</option>
+                          <option value="Cable">Cable</option>
+                        </optgroup>
+                        <optgroup label="Modes & Vetements">
+                          <option value="Chemise">Chemise</option>
+                          <option value="Pantalon">Pantalon</option>
+                          <option value="Pull">Pull</option>
+                          <option value="Robe">Robe</option>
+                        </optgroup>
+                        <optgroup label="Music">
+                          <option value="Guitare">Guitare</option>
+                          <option value="Piano">Piano</option>
+                          <option value="Percussion">Percussion</option>
+                        </optgroup>
+                        <optgroup label="Accessoir">
+                          <option value="Collier">Collier</option>
+                          <option value="Montre">Montre</option>
+                          <option value="Sac">Sac</option>
+                        </optgroup>
+                        <optgroup label="Autre">
+                          <option value="Meuble">Meuble</option>
+                          <option value="Jeux Video">Jeux Video</option>
+                          <option value="Film">Film</option>
+                        </optgroup>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="state" class="col-sm-2 col-form-label">State</label>
+                    <div class="col-sm-3">
+                      <select class="custom-select mr-sm-6" id="state" th:field="*{state}" name="state">
+                        <option value="Neuf">Neuf</option>
+                        <option value="Bon">Bon</option>
+                        <option value="Ancien">Ancien</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="user" class="col-sm-2 col-form-label">User</label>
+                    <div class="col-sm-3">
+                      <select th:field="*{user}" name="user" class="custom-select mr-sm-6" id="user" >
+                        <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.login}"/>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between">
+                    <a href="" class="btn btn-sm btn-theme"><i class="fa fa-chevron-left"></i> Return to list</a>
+                    <button class="btn btn-sm btn-success pull-right">Save <i class="fa fa-save"></i> </button>
+                  </div>
+                </form>
+              </div>
+              </div>
+          </div>
+        </div>
+      </section>
+    </section>
+    <!--main content end-->
+
+    <!--footer start-->
+    <footer class="site-footer">
+      <div class="text-center">
+        <p>
+          &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
+        </p>
+        <div class="credits">
+          Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
+        </div>
+        <a href="dashboard.html#" class="go-top">
+          <i class="fa fa-angle-up"></i>
+          </a>
+      </div>
+    </footer>
+    <!--footer end-->
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script th:src="@{/lib/jquery/jquery.min.js}" src="../static/lib/jquery/jquery.min.js"></script>
+
+  <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}" src="../static/lib/bootstrap/js/bootstrap.min.js"></script>
+  <script th:src="@{/lib/jquery.dcjqaccordion.2.7.js}" src="../static/lib/jquery.dcjqaccordion.2.7.js" class="include" type="text/javascript"></script>
+  <script th:src="@{/lib/jquery.scrollTo.min.js}" src="../static/lib/jquery.scrollTo.min.js"></script>
+  <script th:src="@{/lib/jquery.nicescroll.js}" src="../static/lib/jquery.nicescroll.js" type="text/javascript"></script>
+  <script th:src="@{/lib/jquery.sparkline.js}" src="../static/lib/jquery.sparkline.js"></script>
+  <!--common script for all pages-->
+  <script th:src="@{/lib/common-scripts.js}" src="../static/lib/common-scripts.js"></script>
+  <script type="text/javascript" th:src="@{/lib/gritter/js/jquery.gritter.js}" src="../static/lib/gritter/js/jquery.gritter.js"></script>
+  <script type="text/javascript" th:src="@{/lib/gritter-conf.js}" src="../static/lib/gritter-conf.js"></script>
+  <!--script for this page-->
+
+</body>
+
+</html>

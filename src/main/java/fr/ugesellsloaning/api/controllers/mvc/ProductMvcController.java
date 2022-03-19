@@ -1,0 +1,59 @@
+package fr.ugesellsloaning.api.controllers.mvc;
+
+import fr.ugesellsloaning.api.entities.Product;
+import fr.ugesellsloaning.api.entities.User;
+import fr.ugesellsloaning.api.services.ProductServices;
+import fr.ugesellsloaning.api.services.UserServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@Controller
+public class ProductMvcController {
+
+    @Autowired
+    ProductServices productServices;
+
+    @Autowired
+    UserServices userServices;
+
+    @GetMapping("/admin/product")
+    public String index(Model model){
+        model.addAttribute("products", productServices.listProduct());
+        return "productList";
+    }
+
+    @GetMapping("/admin/product/new")
+    public String add(Model model, Product product){
+        List<User> userList = (List<User>) userServices.listUser();
+        model.addAttribute("users", userList);
+        model.addAttribute("product", product);
+        return "newProduct";
+    }
+
+    @PostMapping("/admin/product/save")
+    public String save(Model model, @ModelAttribute @Valid Product product, BindingResult errors, @RequestParam("user") Long user){
+        List<User> userList = (List<User>) userServices.listUser();
+        model.addAttribute("users", userList);
+        model.addAttribute("product", product);
+
+        if(errors.hasErrors()){
+            model.addAttribute("errors", errors.getAllErrors());
+            model.addAttribute("hasError", true);
+            return  "newProduct";
+        }
+
+        product.setPath((product.getName()+product.getUser()+".jpg").toLowerCase().trim());
+
+        productServices.save(product);
+        return  "redirect:/admin/product";
+    }
+}
