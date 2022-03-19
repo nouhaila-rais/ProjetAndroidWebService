@@ -80,14 +80,21 @@ public class CartController {
 
     }
 
-    @DeleteMapping("/product/{product}/{user}")
+    @GetMapping("/product/{product}/{user}")
     public int deleteCartByProduct(@PathVariable(value = "product")  long product,@PathVariable(value = "user")  long user){
 
         User u = userServices.getUserById(user);
-
-        cartServices.deleteByProduct(product);
-
-        return cartServices.getProductInCart(u.getId()).size();
+        if(u!=null){
+            List<Cart> carts = cartServices.getCartByUser(user);
+            for (Cart cart: carts) {
+                if(cart.getProduct() == product) {
+                    cartServices.deleteByProduct(product);
+                    return cartServices.getProductInCart(user).size();
+                }
+            }
+            return 0;
+        }
+        return -1;
     }
 
     @GetMapping(path = "/buy/{user}")

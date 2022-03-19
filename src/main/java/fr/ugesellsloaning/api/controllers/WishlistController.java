@@ -90,14 +90,20 @@ public class WishlistController {
         return 0;
     }
 
-    @DeleteMapping("/product/{product}")
-    public int deleteProductInWishlist(@PathVariable(value = "product")  long product){
-        String email = "mounas2@gmail.com";
-        User user = userServices.getUserByEmail(email);
-
-        wishlistServices.deleteByProduct(product);
-
-        return wishlistServices.getProductInWishlist(user.getId()).size();
+    @GetMapping("/product/{product}/{user}")
+    public int deleteProductInWishlist(@PathVariable(value = "product")  long product,@PathVariable(value = "user")  long user){
+        User u = userServices.getUserById(user);
+        if(u!=null){
+            List<Wishlist> wishlists = wishlistServices.getWishlistByUser(user);
+            for (Wishlist list: wishlists) {
+                if(list.getProduct() == product) {
+                    wishlistServices.deleteByProduct(product);
+                    return wishlistServices.getProductInWishlist(user).size();
+                }
+            }
+            return 0;
+        }
+        return -1;
     }
     @GetMapping(path = "/addInCart/{user}")
     public int addWishlistInCart(@PathVariable(value = "user")  long user){
