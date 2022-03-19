@@ -28,7 +28,7 @@ public class UsernamePasswordFilter extends UsernamePasswordAuthenticationFilter
         try {
             User userEntity = new ObjectMapper().readValue(request.getInputStream(), User.class);
 
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userEntity.getLogin(), userEntity.getPassword());
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userEntity.getEmail(), userEntity.getPassword());
 
             setDetails(request, token);
 

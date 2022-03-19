@@ -118,9 +118,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             Authentication authentication) throws IOException {
 
         response.setStatus(HttpStatus.OK.value());
-        login = authentication.getName();
-        User u = userServices.getUserByLogin(login);
-        objectMapper.writeValue(response.getWriter(), u.getId() );
+        objectMapper.writeValue(response.getWriter(), "Succes" );
     }
 
     private void loginFailureHandler(
@@ -132,9 +130,4 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         objectMapper.writeValue(response.getWriter(), -2 );
     }
-
-    public User currentUser(){
-        return userServices.getUserByLogin(login);
-    }
-
 }
