@@ -104,6 +104,10 @@ public class WaitingListServices {
             String message ="Bonjour ,\n\nVous avez demander d\'emprunter le produit : "+p.getName()+" à "+date+ ", il est actuellement disponible vous pouvez l\'emprunter dès maintentant.\n Cordialement.\nUniversité Gustave Eiffel";
             String object = "Produit "+ p.getName()+" est disponible !";
             notificationServices.SendMailNotificationUtilisateur(u, object, message);
+
+            RequestBorrow requestBorrow= requestBorrowServices.getResquestBorrowByProductAndUser(product, u.getId());
+            requestBorrow.setStatus(true);
+            requestBorrowServices.save(requestBorrow);
         }
 
     }
