@@ -66,7 +66,7 @@ public class ProductMvcController {
             return (method.equals("post"))?"formProduct":"editFormProduct";
         }
 
-        product.setPath((product.getName()+product.getUser()+".jpg").toLowerCase().trim());
+        product.setPath("http://makcenter.ma/uge/projetAndroid/"+product.getPath());
 
         productServices.save(product);
         return  "redirect:/admin/product";
