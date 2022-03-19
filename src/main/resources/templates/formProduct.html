@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Espace personel gestion des comptes">
-  <meta name="author" content="Diallo Mamadou Hassimiou">
+  <meta name="author" content="Mouna Serrar">
   <meta name="keyword" content="Dashboard, UPEM, UGE, SPRING, JAVA, ANDROID">
   <title>UGE | Projet Android</title>
 
@@ -85,7 +85,8 @@
                 <ul th:if="${hasError}">
                   <li class="alert alert-danger" role="alert" th:each="err : ${errors}" th:text="${err.getDefaultMessage()}"/>
                 </ul>
-                <form action="#" th:action="@{/admin/product/save}" th:object="${product}" method="post">
+                <form action="#" id="form" th:action="@{/admin/product/save}" th:object="${product}" th:method="post">
+                  <input type="hidden" id="_method" name="_method" th:value="${method}">
                   <div class="form-group row">
                     <label for="name" class="col-sm-2 col-form-label">Name</label>
                     <div class="col-sm-6">
@@ -173,13 +174,13 @@
                     <label for="user" class="col-sm-2 col-form-label">User</label>
                     <div class="col-sm-3">
                       <select th:field="*{user}" name="user" class="custom-select mr-sm-6" id="user" >
-                        <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.login}"/>
+                        <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.lastName+' '+u.firstName}"/>
                       </select>
                     </div>
                   </div>
 
                   <div class="d-flex justify-content-between">
-                    <a href="" class="btn btn-sm btn-theme"><i class="fa fa-chevron-left"></i> Return to list</a>
+                    <a th:href="@{/admin/product}" class="btn btn-sm btn-theme"><i class="fa fa-chevron-left"></i> Return to list</a>
                     <button class="btn btn-sm btn-success pull-right">Save <i class="fa fa-save"></i> </button>
                   </div>
                 </form>
