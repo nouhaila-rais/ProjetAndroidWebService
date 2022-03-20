@@ -13,7 +13,7 @@ public class Converter {
 
     public Converter() {
         sh = new HttpHandler();
-        this.urlApi = "http://data.fixer.io/api/latest?access_key=c185fde30c880cf6e60e1203949ed6c3&format=1";
+        this.urlApi = "http://data.fixer.io/api/latest?access_key=a8d22d4232366e70d392a5cd41c25809&format=1";
         jsonStr = sh.makeServiceCall(urlApi);
     }
 
